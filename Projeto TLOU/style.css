@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Special+Elite&display=swap');
+
+:root {
+    /* Fundos */
+    --preto: #080807;
+    --carvao: #111009;
+    --carvao-medio: #181610;
+    --marrom-escuro: #1C1814;
+
+    /* Verdes (natureza / mofo / floresta) */
+    --musgo-escuro: #1B2910;
+    --musgo: #2D4018;
+    --musgo-medio: #3E5820;
+    --musgo-claro: #5A7A2C;
+    --musgo-brilho: #6B8A3A;
+
+    /* Âmbar / ferrugem (fogo, Joel, luz quente) */
+    --ambar-escuro: #8A5E0A;
+    --ambar: #C4921A;
+    --ambar-claro: #D4A832;
+    --dourado: #E2BC58;
+
+    /* Creme / pergaminho (texto, Ellie, papel) */
+    --creme-escuro: #B8A882;
+    --creme: #D9C89A;
+    --pergaminho: #E8D5B0;
+    --osso: #F0E4C4;
+
+    /* Ferrugem / sangue (acento de perigo) */
+    --ferrugem: #7A3010;
+    --ferrugem-claro: #A84820;
+
+    /* Tamanhos */
+    --tamanho-header: 80px;
+    --tamanho-footer: 110px;
+}
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--preto);
+    color: var(--pergaminho);
+    font-family: 'Crimson Pro', 'Georgia', 'Serif';
+    overflow-x: hidden;
+}
+
+/*Header*/
+.container {
+    width: 82%;
+    display: flex;
+    margin: auto;
+}
+
+
+.header {
+    background-color: #1B1E13;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-bottom: 2px solid var(--ambar-escuro);
+    height: 80px;
+}
+
+.header .container {
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulo {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 115%;
+    color: var(--ambar);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin: 0;
+}
+
+.navbar {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 35px;
+    padding: 0;
+}
+
+.navbar a {
+    font-family: 'Cinzel', serif;
+    color: var(--creme);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 70%;
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+.navbar a:hover {
+    opacity: 1;
+    color: var(--ambar);
+}
+
+.agora a {
+    color: var(--ambar);
+    font-weight: 600;
+    opacity: 1;
+}
+
+.separador {
+    color: #3C3324;
+}
+
+/*-------- BANNER --------*/
+
+.banner {
+    height: 95vh;
+    background-image: url('https://4kwallpapers.com/images/wallpapers/the-last-of-us-part-ii-ellie-playstation-4-2020-games-2880x1800-1877.jpg');
+    background-size: cover;
+    background-position: center top;
+}
+
+.banner .container {
+    display: flex;
+    height: 100%;
+    padding-top: clamp(1.5rem, 4vh, 5rem);
+    padding-bottom: clamp(1.5rem, 4vh, 5rem);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+}
+
+.banner-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.45rem;
+    color: var(--pergaminho);
+    margin-bottom: clamp(0.75rem, 2vh, 2rem);
+    text-transform: uppercase;
+    border: 0.06rem solid var(--pergaminho);
+    padding-top: 0.45rem;
+    padding-right: 1.2rem;
+    padding-bottom: 0.45rem;
+    padding-left: 1.2rem;
+}
+
+.banner-titulo {
+    font-family: 'Cinzel', serif;
+    font-size: 4.5vw;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.banner-titulo span {
+    color: var(--ambar);
+}
+
+.banner-divisor {
+    width: 5.6rem;
+    height: 0.08rem;
+    background-color: var(--dourado);
+    opacity: 1;
+    margin-top: clamp(0.5rem, 1.5vh, 1.25rem);
+    margin-bottom: clamp(0.5rem, 1.5vh, 1.25rem);
+}
+
+.banner-sub {
+    font-family: 'Special Elite', cursive;
+    font-size: 1.25rem;
+    opacity: 1;
+    color: var(--creme-escuro);
+    line-height: 1.8;
+}
+
+.botoes {
+    margin-top: clamp(1.25rem, 3vh, 2.8rem);
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-primario {
+    background-color: var(--ambar);
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    border: 0.06rem solid var(--musgo-escuro);
+    text-decoration: none;
+    color: var(--preto);
+    padding-top: 0.95rem;
+    padding-right: 2rem;
+    padding-bottom: 0.95rem;
+    padding-left: 2rem;
+    display: inline-block;
+    letter-spacing: 0.28rem;
+}
+
+.btn-primario:hover {
+    background-color: var(--ambar-claro);
+    border-color: var(--ambar-claro);
+}
+
+.btn-secundario {
+    font-family: 'Cinzel', serif;
+    text-decoration: none;
+    font-size: 0.8rem;
+    color: var(--preto);
+    padding-top: 0.95rem;
+    padding-right: 2rem;
+    padding-bottom: 0.95rem;
+    padding-left: 2rem;
+    background-color: var(--creme-escuro);
+    border: 0.0625rem solid var(--musgo-escuro);
+    letter-spacing: 0.28rem;
+    text-transform: uppercase;
+}
+
+.btn-secundario:hover {
+    border-color: var(--creme);
+    background-color: var(--creme);
+}
+
+
+/*----- SOBRE -----*/
+
+.sobre {
+    height: 49vh;
+    background-color: var(--carvao);
+    padding: clamp(2.5rem, 4.5vh, 5.4rem) 0;
+}
+
+.sobre-texto {
+    flex: 1.2;
+}
+
+.sobre .container {
+    gap: clamp(2.5rem, 5vw, 6rem);
+    align-items: flex-start;
+}
+
+.sobre-traco {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.sobre-divisor {
+    width: 2.6rem;
+    height: 0.01rem;
+    background-color: var(--ambar);
+    opacity: 1;
+    align-items: center;
+    margin-top: 0.4rem;
+}
+
+.sobre-subtitulo {
+    font-family: 'Cinzel', serif;
+    color: var(--ambar);
+    text-transform: uppercase;
+    margin-bottom: clamp(0.5rem, 1vh, 1rem);
+    font-size: 0.6rem;
+    letter-spacing: 0.48rem;
+}
+
+.sobre-titulo {
+    font-family: 'Cinzel', serif;
+    margin-bottom: clamp(1rem, 2vh, 2.5rem);
+    text-transform: var(--ambar);
+    font-size: clamp(1.6rem, 2.5vw, 2.6rem);
+    font-weight: 600;
+}
+
+.sobre-titulo em {
+    color: var(--ambar);
+}
+
+.sobre-texto p {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    margin-bottom: clamp(0.6rem, 1.2vh, 1.2rem);
+    font-weight: 300;
+    line-height: 1.95;
+    color: var(--creme);
+    opacity: 0.85;
+}
+
+.sobre-texto strong {
+    opacity: 1;
+    color: #F0E4C4;
+    font-weight: bold;
+}
+
+.sobre-texto em {
+    color: var(--ambar);
+}
+
+.sobre-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.parte-card {
+    position: relative;
+    background-color: #ffffff05;
+    border: 1px solid #c4921a1f;
+    padding-top: clamp(1rem, 2vh, 2rem);
+    padding-right: clamp(1rem, 2vh, 2rem);
+    padding-bottom: clamp(1rem, 2vh, 2rem);
+    padding-left: clamp(1.2rem, 2.5vw, 2.5rem);
+}
+
+.parte-num {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.2rem, 2vw, 2rem);
+    font-weight: 900;
+    color: #c4921a1a;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.parte-card h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.18rem;
+    text-transform: uppercase;
+    color: var(--ambar);
+    margin-bottom: 0.4rem;
+}
+
+.parte-ano {
+    font-family: 'Special Elite', cursive;
+    font-size: 0.78rem;
+    color: var(--musgo-brilho);
+    margin-bottom: clamp(0.4rem, 0.8vh, 0.8rem);
+}
+
+.parte-card p {
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--creme);
+    opacity: 0.75;
+}
