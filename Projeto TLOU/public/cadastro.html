@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro — The Last of Us</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="container">
+      <h1 class="titulo">The Last of Us</h1>
+      <ul class="navbar">
+        <li><a href="index.html">Inicial</a></li>
+        <li><a href="lore.html">Lore</a></li>
+        <li class="separador">|</li>
+        <li><a href="login.html">Login</a></li>
+        <li class="agora"><a href="cadastro.html">Cadastro</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cadastro-page">
+    <div class="cadastro-overlay"></div>
+
+    <div class="cadastro-card">
+
+      <div class="cadastro-card-header">
+        <span class="cadastro-subtitulo">✦ Zona de Registro ✦</span>
+        <h2 class="cadastro-titulo">Criar <em>Acesso</em></h2>
+        <p class="cadastro-sub">Entre para a resistência. Cada sobrevivente conta.</p>
+        <div class="cadastro-divisor"></div>
+      </div>
+
+      <form class="cadastro-form" onsubmit="return cadastrar()">
+
+        <div class="form-grupo">
+          <label class="form-label" for="nome_input">Nome Completo</label>
+          <input class="form-input" type="text" id="nome_input" name="nome" placeholder="Como devemos te chamar?"
+            autocomplete="name" />
+        </div>
+
+        <div class="form-grupo">
+          <label class="form-label" for="email_input">E-mail</label>
+          <input class="form-input" type="email" id="email_input" name="email" placeholder="seu@email.com"
+            autocomplete="email" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-grupo">
+            <label class="form-label" for="senha_input">Senha</label>
+            <div class="input-wrapper">
+              <input class="form-input" type="password" id="senha_input" name="senha" placeholder="••••••••"
+                autocomplete="new-password" />
+              <button type="button" class="toggle-senha" aria-label="Mostrar senha"
+                onclick="toggleSenha('senha_input', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-grupo">
+            <label class="form-label" for="confirmacao_senha_input">Confirmar Senha</label>
+            <div class="input-wrapper">
+              <input class="form-input" type="password" id="confirmacao_senha_input" name="confirmar"
+                placeholder="••••••••" autocomplete="new-password" />
+              <button type="button" class="toggle-senha" aria-label="Mostrar senha"
+                onclick="toggleSenha('confirmacao_senha_input', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grupo form-check">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" id="termos" name="termos" />
+            <span class="check-box"></span>
+            <span class="check-text">
+              Aceito os <a href="#">termos de sobrevivência</a> e confirmo que não estou infectado.
+            </span>
+          </label>
+        </div>
+
+        <div class="alerta_erro">
+          <div class="card_erro" id="cardErro"
+            style="display: none; color: #ff4a4a; text-align: center; margin-bottom: 10px;">
+            <span id="mensagem_erro"></span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-cadastro">
+          <span>Registrar</span>
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </button>
+
+      </form>
+
+      <p class="cadastro-footer-text">
+        Já tem uma conta? <a href="login.html">Fazer login</a>
+      </p>
+
+      <div class="cadastro-card-quote">
+        <span class="quote-linha"></span>
+        <span class="quote-texto">"When you're lost in the darkness, look for the light."</span>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script>
+  function cadastrar() {
+    // aguardar();
+
+    //Recupere o valor da nova input pelo nome do id
+    // Agora vá para o método fetch logo abaixo
+    var nomeVar = nome_input.value;
+    var emailVar = email_input.value;
+    var senhaVar = senha_input.value;
+    var confirmacaoSenhaVar = confirmacao_senha_input.value;
+
+    // Verificando se há algum campo em branco
+    if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "") {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        "(Mensagem de erro para todos os campos em branco)";
+
+      finalizarAguardar();
+      return false;
+    } else {
+      setInterval(sumirMensagem, 5000);
+    }
+
+    // Verificando se as senhas são iguais
+    if (senhaVar != confirmacaoSenhaVar) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "As senhas não coincidem";
+      finalizarAguardar();
+      return false;
+    }
+
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nomeVar,
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+
+          mensagem_erro.innerHTML =
+            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+          setTimeout(() => {
+            window.location = "login.html";
+          }, "2000");
+
+          limparFormulario();
+          finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+  }
+
+  function sumirMensagem() {
+    cardErro.style.display = "none";
+  }
+</script>
