@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz — The Last of Us</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/quiz-dashboard.css" />
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="titulo">The Last of Us</h1>
+            <ul class="navbar">
+                <li><a href="../index.html">Inicial</a></li>
+                <li class="separador">|</li>
+                <li class="agora"><a href="quiz.html">Quiz</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="../login.html">Sair</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="pagina-interna secao-carvao">
+        <div class="container quiz-container">
+            <div class="lore-header">
+                <div class="traco-all">
+                    <div class="divisor-all"></div>
+                    <div class="subtitulo-all">Teste de Conhecimento</div>
+                    <div class="divisor-all"></div>
+                </div>
+                <h2 class="titulo-all">Quiz do <em>Sobrevivente</em></h2>
+                <p class="lore-intro">
+                    Prove que você conhece o mundo, a lore e os personagens
+                    de The Last of Us.
+                </p>
+            </div>
+
+            <div class="quiz-progresso" id="idProgressoWrap">
+                <div class="quiz-progresso-info">
+                    <span class="subtitulo-all">Progresso</span>
+                    <span class="quiz-progresso-num" id="idProgressoNum">1 / 12</span>
+                </div>
+                <div class="quiz-barra-fundo">
+                    <div class="quiz-barra-fill" id="idProgressoBarra" style="width: 8.33%"></div>
+                </div>
+            </div>
+
+            <div id="idQuizAtivo">
+                <div class="quiz-card" id="idQuizCard">
+                    <span class="quiz-num-pergunta" id="idNumeroPergunta">Pergunta 01</span>
+                    <p class="quiz-pergunta" id="idTextoPergunta"></p>
+
+                    <div class="quiz-alternativas" id="idAlternativas"></div>
+
+                    <div class="quiz-feedback" id="idFeedbackBox">
+                        <span class="quiz-feedback-titulo" id="idFeedbackTitulo"></span>
+                        <span class="quiz-feedback-texto" id="idFeedbackTexto"></span>
+                    </div>
+
+                    <div class="quiz-nav">
+                        <button class="btn-cadastro btn-quiz" id="idBtnProximo" style="display: none"
+                            onclick="proximaPergunta()">
+                            <span id="idBtnProximoLabel">Próxima</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-resultado" id="idQuizResultado">
+                <img src="https://gmedia.playstation.com/is/image/SIEPDC/the-last-of-us-hub-character-ellie-02-en-08sept23?$1600px--t$"
+                    class="quiz-resultado-img" alt="Ellie" />
+
+                <span class="quiz-pontuacao" id="idPontuacaoFinal"></span>
+                <span class="quiz-pontuacao-de">de 12 perguntas</span>
+
+                <h3 class="titulo-all" id="idResultadoTitulo"></h3>
+                <p id="idResultadoDesc"></p>
+
+                <div class="sig-tags" id="idTagResultado"></div>
+
+                <div class="quiz-resultado-acoes">
+                    <button class="btn-cadastro btn-quiz" onclick="reiniciarQuiz()">
+                        Tentar Novamente
+                    </button>
+                    <a href="dashboard.html" class="btn-secundario">Ver Dashboard</a>
+                </div>
+
+                <div class="rodape">
+                    <span class="rodape-linha"></span>
+                    <span class="rodape-texto">
+                        "When you're lost in the darkness, look for the light." — The Last of Us
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let PERGUNTAS = [
+        {
+            pergunta: "Em que ano o surto de Cordyceps colapsou a civilização nos Estados Unidos?",
+            alternativas: ["2013", "2010", "2019", "2001"],
+            correta: 0,
+            feedback: "O surto ocorreu em 2013 — o mesmo ano do lançamento original do jogo. Vinte anos depois, o mundo já é irreconhecível.",
+        },
+        {
+            pergunta: "Qual é o gênero do fungo mutante responsável pela pandemia em The Last of Us?",
+            alternativas: ["Ophiocordyceps", "Cordyceps", "Aspergillus", "Clathrus"],
+            correta: 1,
+            feedback: "O fungo é do gênero Cordyceps — inspirado no fungo real que parasita insetos, mas aqui mutado para infectar humanos.",
+        },
+        {
+            pergunta: "Como são chamados os infectados em estágio final, cujo corpo foi quase completamente consumido pelo fungo?",
+            alternativas: ["Estaladores", "Espreitadores", "Baiacus", "Corredores"],
+            correta: 2,
+            feedback: "Os Baiacus são o estágio final da infecção. O fungo consumiu quase todo o corpo, criando uma carapaça grossa e deixando apenas agressividade.",
+        },
+        {
+            pergunta: "Qual mecanismo os Estaladores usam para detectar suas vítimas?",
+            alternativas: [
+                "Visão apurada",
+                "Olfato aguçado",
+                "Ecolocalização por estalos",
+                "Sensores de calor corporal",
+            ],
+            correta: 2,
+            feedback: "Os Estaladores são cegos, mas emitem estalos para localizar presas por ecolocalização — semelhante aos morcegos. Fique em silêncio.",
+        },
+        {
+            pergunta: "Qual organização controlava as zonas de quarentena nos Estados Unidos pós-surto?",
+            alternativas: ["FEDRA", "Vagalumes", "QEDs", "Milícia Boston"],
+            correta: 0,
+            feedback: "A FEDRA (Federal Disaster Response Agency) administrava as zonas de quarentena com mão de ferro — ordem à custa da liberdade.",
+        },
+        {
+            pergunta: "Qual é o nome completo do grupo rebelde que se opõe à FEDRA?",
+            alternativas: ["Serafitas", "Vagalumes", "Lucciole", "Luzes da Liberdade"],
+            correta: 1,
+            feedback: "Os Vagalumes (Fireflies em inglês) lutavam pela restauração do governo democrático e buscavam uma cura — a missão que define o primeiro jogo.",
+        },
+        {
+            pergunta: "O que Joel faz no final de The Last of Us Parte I que define toda a narrativa da Parte II?",
+            alternativas: [
+                "Entrega Ellie aos Vagalumes voluntariamente",
+                "Mata os cirurgiões e salva Ellie, impedindo a cura",
+                "Abandona Ellie em Salt Lake City",
+                "Destrói o laboratório dos Vagalumes com explosivos",
+            ],
+            correta: 1,
+            feedback: "Joel mata os cirurgiões — incluindo o pai de Abby — e salva Ellie, mentindo para ela depois. Essa escolha ecoa por toda a Parte II.",
+        },
+        {
+            pergunta: "Em qual cidade a maior parte de The Last of Us Parte II se passa?",
+            alternativas: ["Boston", "Pittsburgh", "Seattle", "Salt Lake City"],
+            correta: 2,
+            feedback: "Seattle é o cenário central da Parte II — dividida entre os WLF (Washington Liberation Front) e os Serafitas, duas facções em guerra.",
+        },
+        {
+            pergunta: "Qual instrumento musical está associado a Ellie ao longo da saga?",
+            alternativas: ["Violino", "Violão/Guitarra", "Piano", "Gaita"],
+            correta: 1,
+            feedback: "O violão é símbolo da conexão entre Joel e Ellie — ele a ensina a tocar. Na Parte II, esse instrumento carrega toda a carga emocional da relação.",
+        },
+        {
+            pergunta: "O que torna Ellie única e biologicamente especial no universo de The Last of Us?",
+            alternativas: [
+                "Ela é descendente de uma família imune ao fungo",
+                "Ela foi mordida mas não se transformou — é imune",
+                "Ela carrega um antídoto sintético no sangue",
+                "Ela foi vacinada antes do colapso",
+            ],
+            correta: 1,
+            feedback: "Ellie foi mordida aos 14 anos e não se transformou. Sua imunidade é natural e inexplicada — a base para a busca de uma cura.",
+        },
+        {
+            pergunta: "Quem é Abby, a personagem central de The Last of Us Parte II?",
+            alternativas: [
+                "Agente da FEDRA infiltrada nos Vagalumes",
+                "Filha do cirurgião que Joel matou para salvar Ellie",
+                "Caçadora de Pittsburgh que persegue Ellie",
+                "Líder dos Vagalumes após os eventos da Parte I",
+            ],
+            correta: 1,
+            feedback: "Abby é filha do Dr. Jerry Anderson, o cirurgião Firefly cuja morte define a Parte II. Ela força o jogador a enxergar o humano no 'vilão'.",
+        },
+        {
+            pergunta: "Qual é o grande tema narrativo que The Last of Us Parte II explora de forma mais corajosa?",
+            alternativas: [
+                "A origem científica do fungo Cordyceps",
+                "Ciclos de violência, empatia e o humano no inimigo",
+                "A reconstrução do governo americano pós-apocalipse",
+                "A descoberta de uma vacina contra o Cordyceps",
+            ],
+            correta: 1,
+            feedback: "A Parte II é uma meditação sobre ódio, ciclos de violência e empatia — forçando o jogador a sentir empatia por quem parecia ser o inimigo.",
+        },
+    ];
+
+    let perguntaAtual = 0;
+    let pontuacao = 0;
+    let respondeu = false;
+
+    let respostas = [];
+    for (let i = 0; i < 12; i++) {
+        // Inicializa o array de respostas com 12 objetos, cada um com acertos e erros zerados
+        respostas.push({ acertos: 0, erros: 0 });
+    }
+
+    function renderizarPergunta() {
+        let questao = PERGUNTAS[perguntaAtual];
+        respondeu = false;
+
+        let numero = perguntaAtual + 1;
+        let numeroTexto = "";
+        if (numero < 10) {
+            // Adiciona um zero cosmético a esquerda para números com apenas um dígito
+            numeroTexto = "0" + numero;
+        } else {
+            numeroTexto = numero;
+        }
+
+        idNumeroPergunta.innerHTML = "Pergunta " + numeroTexto; // Atualiza o número da pergunta
+        idTextoPergunta.innerHTML = questao.pergunta; // Atualiza o texto da pergunta
+        idProgressoNum.innerHTML = numero + " / 12"; // Atualiza o número da pergunta e o total de perguntas
+
+        idFeedbackBox.style.display = "none"; // Esconde o feedback
+        idFeedbackBox.className = "quiz-feedback"; // Reseta a classe do feedback
+        idBtnProximo.style.display = "none"; // Esconde o botão de próxima pergunta
+
+        let letras = ["A", "B", "C", "D"]; // Define as letras para as alternativas
+        let htmlAlternativas = "";
+
+        for (let i = 0; i < questao.alternativas.length; i++) {
+            // Percorre as alternativas e cria os botões com as letras e textos correspondentes
+            let textoAlternativa = questao.alternativas[i]; // Obtém o texto da alternativa
+            let letra = letras[i];// Obtém a letra correspondente
+            htmlAlternativas += `<button class="quiz-alt" id="idBtnAlternativa${i}" onclick="responder(${i})">`; // Cria cada botão e sua função de clique
+            htmlAlternativas += `<span class="quiz-alt-letra">${letra}</span><span>${textoAlternativa}</span>`; // Adiciona a letra e o texto da alternativa
+            htmlAlternativas += `</button>`;
+        }
+        idAlternativas.innerHTML = htmlAlternativas;
+    }
+
+    function responder(indice) {
+        // Função de clique nos botões de alternativa
+        if (respondeu) {
+            // Verifica se já respondeu para evitar duplo clique
+            return; // Sai da função se já respondeu
+        }
+        respondeu = true; // Marca que já respondeu para evitar duplo clique
+
+        let questao = PERGUNTAS[perguntaAtual];
+        let acertou = false;
+
+        if (indice == questao.correta) {
+            // Verifica se a resposta está correta
+            acertou = true; // Marca como acertou se a resposta estiver correta
+        }
+
+        for (let i = 0; i < questao.alternativas.length; i++) {
+            let btnAtual = null;
+            if (i == 0) {
+                btnAtual = idBtnAlternativa0;
+            } else if (i == 1) {
+                btnAtual = idBtnAlternativa1;
+            } else if (i == 2) {
+                btnAtual = idBtnAlternativa2;
+            } else if (i == 3) {
+                btnAtual = idBtnAlternativa3;
+            }
+
+            if (i == questao.correta) {
+                btnAtual.className += " correta";
+            } else if (i == indice && !acertou) {
+                btnAtual.className += " errada";
+            }
+        }
+
+        if (acertou) {
+            pontuacao++;
+            respostas[perguntaAtual].acertos++;
+        } else {
+            respostas[perguntaAtual].erros++;
+        }
+
+        idFeedbackBox.style.display = "block";
+        if (acertou) {
+            idFeedbackBox.className = "quiz-feedback";
+            idFeedbackTitulo.innerHTML = "✓ Correto";
+        } else {
+            idFeedbackBox.className = "quiz-feedback erro";
+            idFeedbackTitulo.innerHTML = "✗ Incorreto";
+        }
+        idFeedbackTexto.innerHTML = questao.feedback;
+        idBtnProximo.style.display = "flex";
+
+        if (perguntaAtual < 11) {
+            idBtnProximoLabel.innerHTML = "Próxima";
+        } else {
+            idBtnProximoLabel.innerHTML = "Ver Resultado";
+        }
+    }
+
+    function proximaPergunta() {
+        perguntaAtual++;
+        if (perguntaAtual < 12) {
+            renderizarPergunta();
+        } else {
+            mostrarResultado();
+        }
+    }
+
+    function mostrarResultado() {
+        idQuizAtivo.style.display = "none";
+        idProgressoWrap.style.display = "none";
+        idQuizResultado.style.display = "block";
+        idPontuacaoFinal.innerHTML = pontuacao;
+
+        let titulo = "";
+        let descricao = "";
+        let tagsHTML = "";
+
+        if (pontuacao == 12) {
+            titulo = "Imune ao Esquecimento";
+            descricao = "Perfeito. Você conhece o universo de The Last of Us melhor que a maioria dos sobreviventes. Ellie aprovaria.";
+            tagsHTML = '<span class="tag verde">Imune</span><span class="tag verde">Joel & Ellie</span><span class="tag">Perfeito</span>';
+        } else if (pontuacao >= 9) {
+            titulo = "Sobrevivente Experiente";
+            descricao = "Quase perfeito. Você tem um laço profundo com essa franquia. Joel confiaria em você para a missão.";
+            tagsHTML = '<span class="tag">Sobrevivente</span><span class="tag verde">Resistência</span><span class="tag">Experiência</span>';
+        } else if (pontuacao >= 6) {
+            titulo = "Membro da Resistência";
+            descricao = "Bom resultado. Você conhece os fundamentos, mas há lore para explorar. Volte à página inicial e revise.";
+            tagsHTML = '<span class="tag">Resistência</span><span class="tag">Narrativa</span><span class="tag verde">Cordyceps</span>';
+        } else {
+            titulo = "Corredor Recém-Infectado";
+            descricao = "O fungo ainda não tomou sua mente, mas sua memória precisa de treinamento. Cada sobrevivente aprende.";
+            tagsHTML = '<span class="tag">Perda</span><span class="tag">Redenção</span><span class="tag">Tente Novamente</span>';
+        }
+
+        idResultadoTitulo.innerHTML = titulo;
+        idResultadoDesc.innerHTML = descricao;
+        idTagResultado.innerHTML = tagsHTML;
+
+        // Persistência das respostas no Banco de Dados
+        var idUsuario = sessionStorage.ID_USUARIO;
+        if (idUsuario) {
+            fetch("/quiz/salvar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idUsuario: idUsuario,
+                    respostas: respostas.map(function (r) { return r.acertos > 0 ? 1 : 0; })
+                })
+            }).then(function (res) {
+                if (res.ok) {
+                    console.log("Resultado do quiz salvo com sucesso no banco de dados.");
+                } else {
+                    console.error("Erro ao salvar resultado do quiz.");
+                }
+            }).catch(function (err) {
+                console.error("Erro na requisição de salvamento do quiz:", err);
+            });
+        } else {
+            console.warn("Usuário não logado. O resultado do quiz não será persistido no banco de dados.");
+        }
+    }
+
+    function reiniciarQuiz() {
+        perguntaAtual = 0;
+        pontuacao = 0;
+        respondeu = false;
+
+        respostas = [];
+        for (let i = 0; i < 12; i++) {
+            respostas.push({ acertos: 0, erros: 0 });
+        }
+
+        idQuizResultado.style.display = "none";
+        idQuizAtivo.style.display = "block";
+        idProgressoWrap.style.display = "block";
+
+        renderizarPergunta();
+    }
+
+    renderizarPergunta();
+</script>
+
+</html>

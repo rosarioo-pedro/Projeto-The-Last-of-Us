@@ -1,0 +1,615 @@
+/* CORES PARA OS GRÁFICOS */
+
+:root {
+    /* Legenda */
+    --grafico-cor-legenda: #e8d5b099;
+    --grafico-fundo-tooltip: #111009f2;
+    --grafico-titulo-tooltip: #c4921ae6;
+    --grafico-texto-tooltip: #d8c99ccc;
+    --grafico-borda-tooltip: #c4921a33;
+    --grafico-cor-marcacao: #b8a88273;
+    --grafico-cor-grade: #c4921a0d;
+
+    --grafico-acerto-fundo: #6b8a3abf;
+    --grafico-acerto-borda: #6b8a3ae6;
+    --grafico-erro-fundo: #7a3010a6;
+    --grafico-erro-borda: #a84820cc;
+
+    --grafico-pizza-acerto-fundo: #6b8a3acc;
+    --grafico-pizza-acerto-borda: #6b8a3a;
+    --grafico-pizza-erro-fundo: #7a3010b3;
+    --grafico-pizza-erro-borda: #a84820e6;
+
+    --grafico-linha-fundo: #6b8a3a12;
+    --grafico-linha-borda: #6b8a3abf;
+
+    --grafico-ponto-dificil: #a84820e6;
+    --grafico-ponto-medio: #c4921ae6;
+    --grafico-ponto-facil: #6b8a3ae6;
+
+    --grafico-fonte-titulo: "Cinzel", serif;
+    --grafico-fonte-corpo: "Crimson Pro", serif;
+    --grafico-tamanho-titulo: 11px;
+    --grafico-tamanho-corpo: 13px;
+}
+
+.pagina-interna {
+    min-height: 100vh;
+    padding-top: var(--tamanho-header);
+    background-color: var(--preto);
+}
+
+.pagina-interna .container {
+    flex-direction: column;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+}
+
+.secao-carvao {
+    background-color: var(--carvao);
+}
+
+.secao-marrom {
+    background-color: var(--marrom-escuro);
+}
+
+.secao-medio {
+    background-color: var(--carvao-medio);
+}
+
+.divisor-secao {
+    border-bottom: 1px solid #c4921a26;
+    margin: clamp(1.5rem, 3vh, 2.5rem) 0;
+}
+
+.rodape {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 3rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid #c4921a14;
+}
+
+.rodape .rodape-linha {
+    flex-shrink: 0;
+    width: 1.8rem;
+    height: 1px;
+    background: var(--musgo-brilho);
+    opacity: 0.5;
+}
+
+.rodape .rodape-texto {
+    font-family: "Special Elite", cursive;
+    font-size: clamp(0.72rem, 0.88vw, 0.82rem);
+    color: var(--musgo-brilho);
+    opacity: 0.5;
+    line-height: 1.5;
+}
+
+/*
+QUIZ
+*/
+
+.quiz-progresso {
+    margin-bottom: 2rem;
+}
+
+.quiz-progresso-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+
+.quiz-progresso-num {
+    font-family: "Special Elite", cursive;
+    font-size: 0.85rem;
+    color: var(--creme-escuro);
+    opacity: 0.5;
+}
+
+.quiz-barra-fundo {
+    width: 100%;
+    height: 3px;
+    background-color: #ffffff08;
+}
+
+.quiz-barra-fill {
+    height: 100%;
+}
+
+.quiz-card {
+    background-color: #0b0a07cc;
+    backdrop-filter: blur(18px);
+    border: 1px solid #c4921a38;
+    box-shadow:
+        0 0 0 1px #c4921a0f inset,
+        0 32px 64px #0000008c;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    position: relative;
+}
+
+.quiz-card::before,
+.dash-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--ambar), transparent);
+}
+
+.quiz-num-pergunta {
+    font-family: "Cinzel", serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.35rem;
+    color: var(--ambar);
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.quiz-pergunta {
+    font-family: "Crimson Pro", Georgia, serif;
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    color: var(--osso);
+    line-height: 1.65;
+    margin-bottom: 1.8rem;
+    font-weight: 400;
+    opacity: 1;
+}
+
+.quiz-alternativas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}
+
+.quiz-alt {
+    background-color: #ffffff05;
+    border: 1px solid #c4921a1f;
+    padding: 0.95rem 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-align: left;
+    font-family: "Crimson Pro", serif;
+    font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+    color: var(--creme);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.quiz-alt:hover {
+    border-color: #c4921a50;
+    background-color: #c4921a08;
+}
+
+.quiz-alt-letra {
+    font-family: "Cinzel", serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1rem;
+    color: var(--ambar-escuro);
+    flex-shrink: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1px solid #c4921a30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quiz-alt.correta {
+    border-color: var(--musgo-brilho);
+    background-color: #6b8a3a15;
+    cursor: default;
+}
+
+.quiz-alt.correta .quiz-alt-letra {
+    background-color: var(--musgo-brilho);
+    color: var(--preto);
+    border-color: var(--musgo-brilho);
+}
+
+.quiz-alt.errada {
+    border-color: var(--ferrugem-claro);
+    background-color: #a8481412;
+    cursor: default;
+    opacity: 0.7;
+}
+
+.quiz-alt.errada .quiz-alt-letra {
+    background-color: var(--ferrugem);
+    color: var(--osso);
+    border-color: var(--ferrugem);
+}
+
+.quiz-feedback {
+    margin-top: 1.4rem;
+    padding: 1rem 1.2rem;
+    border-left: 2px solid var(--musgo-brilho);
+    background-color: #6b8a3a0a;
+    display: none;
+}
+
+.quiz-feedback.erro {
+    border-color: var(--ferrugem-claro);
+    background-color: #a848141a;
+}
+
+.quiz-feedback-titulo {
+    font-family: "Cinzel", serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    color: var(--musgo-brilho);
+    margin-bottom: 0.35rem;
+    display: block;
+}
+
+.quiz-feedback.erro .quiz-feedback-titulo {
+    color: var(--ferrugem-claro);
+}
+
+.quiz-feedback-texto {
+    font-family: "Crimson Pro", serif;
+    font-size: clamp(0.88rem, 1.1vw, 1rem);
+    color: var(--creme);
+    opacity: 0.82;
+    line-height: 1.75;
+}
+
+.quiz-nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.6rem;
+}
+
+.quiz-resultado {
+    display: none;
+}
+
+.quiz-resultado-img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    object-position: center 25%;
+    filter: grayscale(30%) brightness(0.65);
+    border-top: 2px solid var(--ambar-escuro);
+    border-bottom: 1px solid #c4921a26;
+    margin-bottom: 2rem;
+    display: block;
+}
+
+.quiz-pontuacao {
+    font-family: "Cinzel", serif;
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 900;
+    color: var(--ambar);
+    line-height: 1;
+    display: block;
+    text-align: center;
+}
+
+.quiz-pontuacao-de {
+    font-family: "Special Elite", cursive;
+    font-size: 0.88rem;
+    color: var(--creme-escuro);
+    opacity: 0.45;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.quiz-resultado-acoes {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.8rem;
+}
+
+/*
+DASHBOARD
+*/
+
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #c4921a14;
+}
+
+.dash-usuario {
+    font-family: "Special Elite", cursive;
+    font-size: 0.88rem;
+    color: var(--creme-escuro);
+    opacity: 0.5;
+    text-align: right;
+    line-height: 1.6;
+}
+
+.dash-usuario strong {
+    font-family: "Cinzel", serif;
+    font-size: 0.72rem;
+    color: var(--ambar);
+    font-weight: 600;
+    opacity: 1;
+    display: block;
+}
+
+.dash-card {
+    position: relative;
+    background-color: #ffffff05;
+    border: 1px solid #c4921a1f;
+    padding: clamp(1.2rem, 2.5vh, 2rem) clamp(1.2rem, 2vw, 2rem);
+    overflow: hidden;
+}
+
+.dash-card-titulo {
+    font-family: "Cinzel", serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3rem;
+    color: var(--ambar);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.dash-card-sub {
+    font-family: "Crimson Pro", serif;
+    font-size: clamp(0.82rem, 1vw, 0.9rem);
+    color: var(--creme-escuro);
+    opacity: 0.42;
+    line-height: 1.5;
+    margin-bottom: 1.4rem;
+}
+
+.dash-numero-grande {
+    font-family: "Cinzel", serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 900;
+    color: var(--ambar);
+    line-height: 1;
+    display: block;
+    margin: 0.8rem 0 0.4rem;
+}
+
+.dash-numero-label {
+    font-family: "Crimson Pro", serif;
+    font-size: clamp(0.88rem, 1vw, 1rem);
+    color: var(--creme);
+    opacity: 0.55;
+    line-height: 1.6;
+}
+
+.dash-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.dash-stat {
+    position: relative;
+    background-color: #ffffff05;
+    border: 1px solid #c4921a1f;
+    padding: 1.2rem 1.4rem;
+    overflow: hidden;
+}
+
+.dash-stat::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--ambar), transparent);
+}
+
+.dash-stat.verde::before {
+    background: linear-gradient(to bottom, var(--musgo-brilho), transparent);
+}
+
+.dash-stat.ferrugem::before {
+    background: linear-gradient(to bottom, var(--ferrugem-claro), transparent);
+}
+
+.dash-stat-rotulo {
+    font-family: "Cinzel", serif;
+    font-size: 0.52rem;
+    letter-spacing: 0.3rem;
+    color: var(--creme-escuro);
+    opacity: 0.4;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.dash-stat-valor {
+    font-family: "Cinzel", serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 900;
+    color: var(--ambar);
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.dash-stat.verde .dash-stat-valor {
+    color: var(--musgo-brilho);
+}
+
+.dash-stat.ferrugem .dash-stat-valor {
+    color: var(--ferrugem-claro);
+}
+
+.dash-stat-detalhe {
+    font-family: "Special Elite", cursive;
+    font-size: 0.72rem;
+    color: var(--creme-escuro);
+    opacity: 0.32;
+}
+
+.dash-graficos-principal {
+    display: grid;
+    grid-template-columns: 1.85fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.dash-graficos-secundario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.dash-img-deco {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    object-position: center 20%;
+    filter: grayscale(35%) brightness(0.55);
+    border: 1px solid #c4921a14;
+    display: block;
+    margin-top: 1rem;
+}
+
+.aviso-atualizacao {
+    font-family: "Special Elite", cursive;
+    font-size: 0.72rem;
+    color: var(--musgo-brilho);
+    opacity: 0.5;
+    text-align: right;
+    margin-top: 0.5rem;
+    min-height: 1rem;
+}
+
+.loading-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 0;
+}
+
+.loading-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--ambar);
+    border-radius: 50%;
+}
+
+.dash-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid #c4921a0f;
+}
+
+.dash-rodape span {
+    font-family: "Special Elite", cursive;
+    font-size: 0.75rem;
+    color: var(--musgo-brilho);
+    opacity: 0.35;
+}
+
+.dash-container {
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.quiz-container {
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.dash-header .traco-all {
+    margin-bottom: 0.3rem;
+}
+
+.dash-header .titulo-all {
+    margin-bottom: 0;
+}
+
+.dash-card-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dash-card .sig-frase-oficial {
+    margin-top: 1rem;
+}
+
+.dash-grafico-pizza {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.pagina-interna .sig-tags {
+    margin-top: 2rem;
+}
+
+.dash-link-quiz {
+    font-family: "Cinzel", serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    color: var(--ambar);
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+.dash-link-quiz:hover {
+    opacity: 1;
+}
+
+.pagina-interna .lore-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.lore-header .traco-all {
+    justify-content: center;
+    margin-bottom: 0.4rem;
+}
+
+.lore-header .lore-intro {
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.quiz-progresso-info .subtitulo-all {
+    margin-bottom: 0;
+}
+
+.btn-quiz {
+    width: auto;
+    padding: 0.9rem 2rem;
+}
+
+.quiz-resultado .titulo-all {
+    text-align: center;
+    margin-bottom: 0.6rem;
+}
+
+.quiz-resultado p {
+    text-align: center;
+    max-width: 520px;
+    margin: 0 auto 1.5rem;
+}
+
+.quiz-resultado .sig-tags {
+    justify-content: center;
+}

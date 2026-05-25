@@ -17,7 +17,27 @@ function executar(instrucao) {
     }
 
     return new Promise(function (resolve, reject) {
-        var conexao = mysql.createConnection(mySqlConfig);
+        // Clona a configuração padrão
+        var config = {
+            host: mySqlConfig.host,
+            database: mySqlConfig.database,
+            user: mySqlConfig.user,
+            password: mySqlConfig.password,
+            port: mySqlConfig.port
+        };
+
+        // Roteamento Automático de Consultas:
+        // Se a instrução for um SELECT ou SHOW, e houver credenciais de leitura configuradas, nós as usamos
+        var instrucaoFormatada = instrucao.trim().toUpperCase();
+        if ((instrucaoFormatada.startsWith("SELECT") || instrucaoFormatada.startsWith("SHOW")) && process.env.DB_USER_SELECT) {
+            config.user = process.env.DB_USER_SELECT;
+            config.password = process.env.DB_PASSWORD_SELECT;
+            console.log(`\n[Database] Roteando consulta SELECT para o usuário de leitura: '${config.user}'`);
+        } else {
+            console.log(`\n[Database] Executando comando para o usuário padrão: '${config.user}'`);
+        }
+
+        var conexao = mysql.createConnection(config);
         conexao.connect();
         conexao.query(instrucao, function (erro, resultados) {
             conexao.end();

@@ -1,318 +1,525 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 
 <head>
-    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTech | Dashboards</title>
-
-    
-    <link rel="stylesheet" href="./../css/dashboards.css">
-    <link rel="stylesheet" href="./../css/estilo.css" />
-    <script src="../js/sessao.js"></script>
-    <script src="./../js/alerta.js"></script>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-
-    <!-- scripts do Chart.js - 2022-1 -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!--FONT AWESOME-->
-    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — The Last of Us</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/quiz-dashboard.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 
-<!-- <body onload=" atualizarFeed()"> -->
-
 <body>
-
-    <div class="janela">
-        <div class="header-left">
-            <h1>AquaTech</h1>
-
-            <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./cards.html">
-                    <h3>Aquários</h3>
-                </a>
-            </div>
-
-            <div class="btn-nav">
-
-                <h3>Gráficos</h3>
-
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./mural.html">
-                    <h3>Mural de Avisos</h3>
-                </a>
-            </div>
-
-            <div class="btn-logout" onclick="limparSessao()">
-                <h3>Sair</h3>
-            </div>
-
+    <div class="header">
+        <div class="container">
+            <h1 class="titulo">The Last of Us</h1>
+            <ul class="navbar">
+                <li><a href="../index.html">Inicial</a></li>
+                <li class="separador">|</li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li class="agora">
+                    <a href="dashboard.html">Dashboard</a>
+                </li>
+                <li><a href="../login.html">Sair</a></li>
+            </ul>
         </div>
+    </div>
 
-        <div class="dash">
-            <div id="alerta">
+    <div class="pagina-interna secao-marrom">
+        <div class="container dash-container">
+            <div class="dash-header">
+                <div>
+                    <div class="traco-all">
+                        <div class="divisor-all"></div>
+                        <div class="subtitulo-all">Painel de Controle</div>
+                    </div>
+                    <h2 class="titulo-all">Dashboard <em>do Quiz</em></h2>
+                </div>
+                <div class="dash-usuario">
+                    Sobrevivente conectado
+                    <strong id="idUsuario">—</strong>
+                </div>
             </div>
 
-            <div class="btns-dash" id="btnAquario">
-                <!-- O gráfico é chamado de acordo com o id (fk_aquario) do banco  -->
+            <div class="dash-stat-grid">
+                <div class="dash-stat">
+                    <span class="dash-stat-rotulo">Usuários que tentaram</span>
+                    <span class="dash-stat-valor" id="idStatTentativas">—</span>
+                    <span class="dash-stat-detalhe">tentativas registradas</span>
+                </div>
+
+                <div class="dash-stat verde">
+                    <span class="dash-stat-rotulo">Total de Acertos</span>
+                    <span class="dash-stat-valor" id="idStatAcertos">—</span>
+                    <span class="dash-stat-detalhe">respostas corretas</span>
+                </div>
+
+                <div class="dash-stat ferrugem">
+                    <span class="dash-stat-rotulo">Total de Erros</span>
+                    <span class="dash-stat-valor" id="idStatErros">—</span>
+                    <span class="dash-stat-detalhe">respostas incorretas</span>
+                </div>
+
+                <div class="dash-stat">
+                    <span class="dash-stat-rotulo">Pergunta Mais Difícil</span>
+                    <span class="dash-stat-valor" id="idStatMaisDificil">—</span>
+                    <span class="dash-stat-detalhe">maior taxa de erro</span>
+                </div>
             </div>
-            <div id="graficos">
+
+            <div class="dash-graficos-principal">
+                <div class="dash-card">
+                    <span class="dash-card-titulo">Taxa de Acerto / Erro por Pergunta</span>
+                    <p class="dash-card-sub">
+                        Desempenho de todos os usuários em cada uma das 12 questões.
+                    </p>
+                    <canvas id="idGraficoBarras"></canvas>
+                    <p class="aviso-atualizacao" id="idAvisoAtualizacao"></p>
+                </div>
+
+                <div class="dash-card dash-card-flex">
+                    <div>
+                        <span class="dash-card-titulo">Sobreviventes no Quiz</span>
+                        <div class="dash-numero-grande" id="idTotalUsuarios">—</div>
+                        <p class="dash-numero-label">
+                            usuários que enfrentaram o desafio de
+                            conhecimento sobre o universo de The Last of Us.
+                        </p>
+                        <div class="divisor-secao"></div>
+                    </div>
+                    <div>
+                        <img src="https://preview.redd.it/made-a-map-of-all-the-factions-communities-bases-and-v0-jcpakg2k6xwb1.png?auto=webp&s=feac3c8843901e3a13136aa67c538feeee03b497"
+                            class="dash-img-deco" alt="Mapa do mundo TLOU" />
+                        <div class="sig-frase-oficial">
+                            <p class="sig-frase-texto">"Every survivor matters."</p>
+                            <p class="sig-frase-autor">— The Last of Us</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dash-graficos-secundario">
+                <div class="dash-card">
+                    <span class="dash-card-titulo">Acertos vs Erros — Geral</span>
+                    <p class="dash-card-sub">
+                        Proporção global de respostas corretas e incorretas.
+                    </p>
+                    <div class="dash-grafico-pizza">
+                        <canvas id="idGraficoPizza"></canvas>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <span class="dash-card-titulo">Ranking de Dificuldade</span>
+                    <p class="dash-card-sub">
+                        Perguntas ordenadas da menor para a maior taxa de acerto.
+                    </p>
+                    <canvas id="idGraficoLinha"></canvas>
+                </div>
+            </div>
+
+            <div class="sig-tags">
+                <span class="tag">Narrativa</span>
+                <span class="tag verde">Joel & Ellie</span>
+                <span class="tag">Lore</span>
+                <span class="tag verde">Cordyceps</span>
+                <span class="tag">Sobrevivência</span>
+                <span class="tag">Redenção</span>
+            </div>
+
+            <div class="dash-rodape">
+                <span>"When you're lost in the darkness, look for the light." — 2026</span>
+                <a href="quiz.html" class="dash-link-quiz">Fazer o Quiz →</a>
             </div>
         </div>
     </div>
 
+    <script>
+        // ---- Usuário ----
+        idUsuario.innerHTML = "Sobrevivente";
 
+        let proximaAtualizacao;
+        let chartBarras, chartPizza, chartLinha;
+
+        // ---- Leitura das variáveis de tema do CSS ----
+        let estiloRaiz = getComputedStyle(document.documentElement);
+
+        function lerCor(variavel) {
+            return estiloRaiz.getPropertyValue(variavel).trim();
+        }
+
+        let corLegenda = lerCor("--grafico-cor-legenda");
+        let fundoTooltip = lerCor("--grafico-fundo-tooltip");
+        let corTituloTooltip = lerCor("--grafico-titulo-tooltip");
+        let corTextoTooltip = lerCor("--grafico-texto-tooltip");
+        let corBordaTooltip = lerCor("--grafico-borda-tooltip");
+        let corMarcacao = lerCor("--grafico-cor-marcacao");
+        let corGrade = lerCor("--grafico-cor-grade");
+
+        let corAcertoFundo = lerCor("--grafico-acerto-fundo");
+        let corAcertoBorda = lerCor("--grafico-acerto-borda");
+        let corErroFundo = lerCor("--grafico-erro-fundo");
+        let corErroBorda = lerCor("--grafico-erro-borda");
+
+        let corPizzaAcertoFundo = lerCor("--grafico-pizza-acerto-fundo");
+        let corPizzaAcertoBorda = lerCor("--grafico-pizza-acerto-borda");
+        let corPizzaErroFundo = lerCor("--grafico-pizza-erro-fundo");
+        let corPizzaErroBorda = lerCor("--grafico-pizza-erro-borda");
+
+        let corLinhaFundo = lerCor("--grafico-linha-fundo");
+        let corLinhaBorda = lerCor("--grafico-linha-borda");
+
+        let corPontoDificil = lerCor("--grafico-ponto-dificil");
+        let corPontoMedio = lerCor("--grafico-ponto-medio");
+        let corPontoFacil = lerCor("--grafico-ponto-facil");
+
+        let fonteTitulo = lerCor("--grafico-fonte-titulo");
+        let fonteCorpo = lerCor("--grafico-fonte-corpo");
+        let tamanhoTitulo = parseInt(lerCor("--grafico-tamanho-titulo"));
+        let tamanhoCorpo = parseInt(lerCor("--grafico-tamanho-corpo"));
+
+        // ---- Renderizar dashboard ----
+        function renderizarDashboard(respostas, totalUsuariosParam) {
+            let rotulos = [];
+            let acertos = [];
+            let erros = [];
+            let taxas = [];
+            let totalAcertos = 0;
+            let totalErros = 0;
+
+            for (let i = 0; i < respostas.length; i++) {
+                rotulos[i] = "P" + (i + 1);
+                acertos[i] = respostas[i].acertos;
+                erros[i] = respostas[i].erros;
+                totalAcertos += acertos[i];
+                totalErros += erros[i];
+
+                let total = acertos[i] + erros[i];
+                if (total > 0) {
+                    taxas[i] = parseFloat(((acertos[i] / total) * 100).toFixed(1));
+                } else {
+                    taxas[i] = 0;
+                }
+            }
+
+            // Pergunta mais difícil
+            let menorTaxa = taxas[0];
+            let idxMaisDificil = 0;
+            for (let i = 1; i < taxas.length; i++) {
+                if (taxas[i] < menorTaxa) {
+                    menorTaxa = taxas[i];
+                    idxMaisDificil = i;
+                }
+            }
+
+            // Preenche os cards de estatísticas
+            idStatTentativas.innerHTML = totalUsuariosParam;
+            idTotalUsuarios.innerHTML = totalUsuariosParam;
+            idStatAcertos.innerHTML = totalAcertos;
+            idStatErros.innerHTML = totalErros;
+            idStatMaisDificil.innerHTML = "P" + (idxMaisDificil + 1);
+
+            plotarBarras(rotulos, acertos, erros);
+            plotarPizza(totalAcertos, totalErros);
+            plotarLinha(rotulos, taxas);
+        }
+
+        // ---- Gráfico de Barras (acerto/erro por pergunta) ----
+        function plotarBarras(rotulos, acertos, erros) {
+            if (chartBarras) {
+                chartBarras.destroy();
+            }
+
+            chartBarras = new Chart(idGraficoBarras.getContext("2d"), {
+                type: "bar",
+                data: {
+                    labels: rotulos,
+                    datasets: [
+                        {
+                            label: "Acertos",
+                            data: acertos,
+                            backgroundColor: corAcertoFundo,
+                            borderColor: corAcertoBorda,
+                            borderWidth: 1,
+                            borderRadius: 2,
+                        },
+                        {
+                            label: "Erros",
+                            data: erros,
+                            backgroundColor: corErroFundo,
+                            borderColor: corErroBorda,
+                            borderWidth: 1,
+                            borderRadius: 2,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: "index", intersect: false },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: corLegenda,
+                                font: { family: fonteTitulo, size: tamanhoCorpo },
+                                boxWidth: 12,
+                            },
+                        },
+                        tooltip: {
+                            backgroundColor: fundoTooltip,
+                            titleColor: corTituloTooltip,
+                            bodyColor: corTextoTooltip,
+                            borderColor: corBordaTooltip,
+                            borderWidth: 1,
+                            titleFont: { family: fonteTitulo, size: tamanhoTitulo },
+                            bodyFont: { family: fonteCorpo, size: tamanhoCorpo },
+                            callbacks: {
+                                afterBody: function (items) {
+                                    let qtdAcertos = 0;
+                                    let qtdErros = 0;
+                                    for (let i = 0; i < items.length; i++) {
+                                        if (items[i].dataset.label == "Acertos") {
+                                            qtdAcertos = items[i].raw;
+                                        }
+                                        if (items[i].dataset.label == "Erros") {
+                                            qtdErros = items[i].raw;
+                                        }
+                                    }
+                                    let total = qtdAcertos + qtdErros;
+                                    if (total > 0) {
+                                        return ["Taxa de acerto: " + ((qtdAcertos / total) * 100).toFixed(1) + "%"];
+                                    }
+                                    return [];
+                                },
+                            },
+                        },
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: corMarcacao, font: { size: tamanhoTitulo } },
+                            grid: { color: corGrade },
+                        },
+                        y: {
+                            ticks: { color: corMarcacao, font: { size: tamanhoTitulo } },
+                            grid: { color: corGrade },
+                            beginAtZero: true,
+                        },
+                    },
+                },
+            });
+        }
+
+        // ---- Gráfico de Rosca ----
+        function plotarPizza(totalAcertos, totalErros) {
+            if (chartPizza) {
+                chartPizza.destroy();
+            }
+
+            chartPizza = new Chart(idGraficoPizza.getContext("2d"), {
+                type: "doughnut",
+                data: {
+                    labels: ["Acertos", "Erros"],
+                    datasets: [
+                        {
+                            data: [totalAcertos, totalErros],
+                            backgroundColor: [corPizzaAcertoFundo, corPizzaErroFundo],
+                            borderColor: [corPizzaAcertoBorda, corPizzaErroBorda],
+                            borderWidth: 1,
+                            hoverOffset: 6,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    cutout: "62%",
+                    plugins: {
+                        legend: {
+                            position: "bottom",
+                            labels: {
+                                color: corLegenda,
+                                font: { family: fonteCorpo, size: tamanhoCorpo },
+                                boxWidth: 12,
+                                padding: 16,
+                            },
+                        },
+                        tooltip: {
+                            backgroundColor: fundoTooltip,
+                            titleColor: corTituloTooltip,
+                            bodyColor: corTextoTooltip,
+                            borderColor: corBordaTooltip,
+                            borderWidth: 1,
+                            titleFont: { family: fonteTitulo, size: tamanhoTitulo },
+                            bodyFont: { family: fonteCorpo, size: tamanhoCorpo },
+                            callbacks: {
+                                label: function (item) {
+                                    let total = totalAcertos + totalErros;
+                                    let porcentagem = 0;
+                                    if (total > 0) {
+                                        porcentagem = ((item.raw / total) * 100).toFixed(1);
+                                    }
+                                    return ` ${item.label}: ${item.raw} (${porcentagem}%)`;
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        // ---- Gráfico de Linha: ranking de dificuldade ----
+        function plotarLinha(rotulos, taxas) {
+            if (chartLinha) {
+                chartLinha.destroy();
+            }
+
+            // Ordenação por Bubble Sort (menor para maior taxa)
+            let ordenado = [];
+            for (let i = 0; i < rotulos.length; i++) {
+                ordenado[i] = { rotulo: rotulos[i], taxa: taxas[i] };
+            }
+            for (let i = 0; i < ordenado.length; i++) {
+                for (let j = 0; j < ordenado.length - 1 - i; j++) {
+                    if (ordenado[j].taxa > ordenado[j + 1].taxa) {
+                        let aux = ordenado[j];
+                        ordenado[j] = ordenado[j + 1];
+                        ordenado[j + 1] = aux;
+                    }
+                }
+            }
+
+            let rotulosOrdenados = [];
+            let taxasOrdenadas = [];
+            let coresOrdenadas = [];
+
+            for (let i = 0; i < ordenado.length; i++) {
+                rotulosOrdenados[i] = ordenado[i].rotulo;
+                taxasOrdenadas[i] = ordenado[i].taxa;
+
+                if (ordenado[i].taxa < 40) {
+                    coresOrdenadas[i] = corPontoDificil;
+                } else if (ordenado[i].taxa < 70) {
+                    coresOrdenadas[i] = corPontoMedio;
+                } else {
+                    coresOrdenadas[i] = corPontoFacil;
+                }
+            }
+
+            chartLinha = new Chart(idGraficoLinha.getContext("2d"), {
+                type: "line",
+                data: {
+                    labels: rotulosOrdenados,
+                    datasets: [
+                        {
+                            label: "Taxa de Acerto (%)",
+                            data: taxasOrdenadas,
+                            fill: true,
+                            backgroundColor: corLinhaFundo,
+                            borderColor: corLinhaBorda,
+                            tension: 0.35,
+                            pointBackgroundColor: coresOrdenadas,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: corLegenda,
+                                font: { family: fonteCorpo, size: tamanhoCorpo },
+                                boxWidth: 12,
+                            },
+                        },
+                        tooltip: {
+                            backgroundColor: fundoTooltip,
+                            titleColor: corTituloTooltip,
+                            bodyColor: corTextoTooltip,
+                            borderColor: corBordaTooltip,
+                            borderWidth: 1,
+                            titleFont: { family: fonteTitulo, size: tamanhoTitulo },
+                            bodyFont: { family: fonteCorpo, size: tamanhoCorpo },
+                            callbacks: {
+                                label: function (item) {
+                                    return ` Taxa de acerto: ${item.raw}%`;
+                                },
+                            },
+                        },
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: corMarcacao, font: { size: tamanhoTitulo } },
+                            grid: { color: corGrade },
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                color: corMarcacao,
+                                font: { size: tamanhoTitulo },
+                                callback: function (v) {
+                                    return v + "%";
+                                },
+                            },
+                            grid: { color: corGrade },
+                        },
+                    },
+                },
+            });
+        }
+
+        function carregarDados() {
+            var email = sessionStorage.EMAIL_USUARIO;
+            var nome = sessionStorage.NOME_USUARIO;
+
+            if (email == null || nome == null) {
+                window.location = "../login.html";
+                return;
+            }
+
+            idUsuario.innerHTML = nome;
+
+            fetch("/quiz/metricas", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        if (resposta.status == 204) {
+                            idStatTentativas.innerHTML = "0";
+                            idTotalUsuarios.innerHTML = "0";
+                            idStatAcertos.innerHTML = "0";
+                            idStatErros.innerHTML = "0";
+                            idStatMaisDificil.innerHTML = "N/A";
+
+                            let respostasZeradas = [];
+                            for (let i = 0; i < 12; i++) {
+                                respostasZeradas.push({ acertos: 0, erros: 0 });
+                            }
+                            renderizarDashboard(respostasZeradas, 0);
+                            return;
+                        }
+
+                        resposta.json().then(function (dados) {
+                            console.log("Dados recebidos do banco:", dados);
+                            renderizarDashboard(dados.respostas, dados.totalTentativas);
+                            idTotalUsuarios.innerHTML = dados.totalUsuarios;
+                        });
+                    } else {
+                        console.error("Erro ao obter dados das métricas do quiz.");
+                    }
+                })
+                .catch(function (erro) {
+                    console.error("Erro na requisição das métricas:", erro);
+                });
+        }
+
+        // ---- Init ----
+        window.onload = carregarDados;
+    </script>
 </body>
 
 </html>
-
-<script>
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-
-    let proximaAtualizacao;
-
-    window.onload = exibirAquariosDoUsuario();
-
-    function exibirAquariosDoUsuario() {
-        var aquarios = JSON.parse(sessionStorage.AQUARIOS);
-        aquarios.forEach(item => {
-            document.getElementById("btnAquario").innerHTML += `
-            <button class="btn-chart" onclick="exibirAquario(${item.id})" id="btnAquario${item.id}">${item.descricao}</button>
-            `
-
-            document.getElementById("graficos").innerHTML += `
-                <div id="grafico${item.id}" class="display-none">
-                    <h3 class="tituloGraficos">
-                        <span id="tituloAquario${item.id}">${item.descricao}</span>
-                    </h3>
-                    <div class="graph">
-                        <canvas id="myChartCanvas${item.id}"></canvas>
-                    </div>
-                    <div class="label-captura">
-                        <p id="avisoCaptura${item.id}" style="color: white"></p>
-                    </div>
-                </div>
-            `
-
-            obterDadosGrafico(item.id)
-        });
-
-        if (aquarios.length > 0) {
-            exibirAquario(aquarios[0].id)
-        }
-    }
-
-    function alterarTitulo(idAquario) {
-        var tituloAquario = document.getElementById(`tituloAquario${idAquario}`)
-        var descricao = JSON.parse(sessionStorage.AQUARIOS).find(item => item.id == idAquario).descricao;
-        tituloAquario.innerHTML = "Últimas medidas de Temperatura e Umidade do <span style='color: #e6005a'>" + descricao + "</span>"
-    }
-
-    function exibirAquario(idAquario) {
-        let todosOsGraficos = JSON.parse(sessionStorage.AQUARIOS);
-
-        for (i = 0; i < todosOsGraficos.length; i++) {
-            // exibindo - ou não - o gráfico
-            if (todosOsGraficos[i].id != idAquario) {
-                let elementoAtual = document.getElementById(`grafico${todosOsGraficos[i].id}`)
-                if (elementoAtual.classList.contains("display-block")) {
-                    elementoAtual.classList.remove("display-block")
-                }
-                elementoAtual.classList.add("display-none")
-
-                // alterando estilo do botão
-                let btnAtual = document.getElementById(`btnAquario${todosOsGraficos[i].id}`)
-                if (btnAtual.classList.contains("btn-pink")) {
-                    btnAtual.classList.remove("btn-pink")
-                }
-                btnAtual.classList.add("btn-white")
-            }
-        }
-
-        // exibindo - ou não - o gráfico
-        let graficoExibir = document.getElementById(`grafico${idAquario}`)
-        graficoExibir.classList.remove("display-none")
-        graficoExibir.classList.add("display-block")
-
-        // alterando estilo do botão
-        let btnExibir = document.getElementById(`btnAquario${idAquario}`)
-        btnExibir.classList.remove("btn-white")
-        btnExibir.classList.add("btn-pink")
-    }
-
-    // O gráfico é construído com três funções:
-    // 1. obterDadosGrafico -> Traz dados do Banco de Dados para montar o gráfico da primeira vez
-    // 2. plotarGrafico -> Monta o gráfico com os dados trazidos e exibe em tela
-    // 3. atualizarGrafico -> Atualiza o gráfico, trazendo novamente dados do Banco
-
-    // Esta função *obterDadosGrafico* busca os últimos dados inseridos em tabela de medidas.
-    // para, quando carregar o gráfico da primeira vez, já trazer com vários dados.
-    // A função *obterDadosGrafico* também invoca a função *plotarGrafico*
-
-    //     Se quiser alterar a busca, ajuste as regras de negócio em src/controllers
-    //     Para ajustar o "select", ajuste o comando sql em src/models
-    function obterDadosGrafico(idAquario) {
-
-        alterarTitulo(idAquario)
-
-        if (proximaAtualizacao != undefined) {
-            clearTimeout(proximaAtualizacao);
-        }
-
-        fetch(`/medidas/ultimas/${idAquario}`, { cache: 'no-store' }).then(function (response) {
-            if (response.ok) {
-                response.json().then(function (resposta) {
-                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                    resposta.reverse();
-
-                    plotarGrafico(resposta, idAquario);
-
-                });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
-            }
-        })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-            });
-    }
-
-    // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico
-    // Configura o gráfico (cores, tipo, etc), materializa-o na página e, 
-    // A função *plotarGrafico* também invoca a função *atualizarGrafico*
-    function plotarGrafico(resposta, idAquario) {
-
-        console.log('iniciando plotagem do gráfico...');
-
-        // Criando estrutura para plotar gráfico - labels
-        let labels = [];
-
-        // Criando estrutura para plotar gráfico - dados
-        let dados = {
-            labels: labels,
-            datasets: [{
-                label: 'Umidade',
-                data: [],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            },
-            {
-                label: 'Temperatura',
-                data: [],
-                fill: false,
-                borderColor: 'rgb(199, 52, 52)',
-                tension: 0.1
-            }]
-        };
-
-        console.log('----------------------------------------------')
-        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
-        console.log(resposta)
-
-        // Inserindo valores recebidos em estrutura para plotar o gráfico
-        for (i = 0; i < resposta.length; i++) {
-            var registro = resposta[i];
-            labels.push(registro.momento_grafico);
-            dados.datasets[0].data.push(registro.umidade);
-            dados.datasets[1].data.push(registro.temperatura);
-        }
-
-        console.log('----------------------------------------------')
-        console.log('O gráfico será plotado com os respectivos valores:')
-        console.log('Labels:')
-        console.log(labels)
-        console.log('Dados:')
-        console.log(dados.datasets)
-        console.log('----------------------------------------------')
-
-        // Criando estrutura para plotar gráfico - config
-        const config = {
-            type: 'line',
-            data: dados,
-        };
-
-        // Adicionando gráfico criado em div na tela
-        let myChart = new Chart(
-            document.getElementById(`myChartCanvas${idAquario}`),
-            config
-        );
-
-        setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
-    }
-
-
-    // Esta função *atualizarGrafico* atualiza o gráfico que foi renderizado na página,
-    // buscando a última medida inserida em tabela contendo as capturas, 
-
-    //     Se quiser alterar a busca, ajuste as regras de negócio em src/controllers
-    //     Para ajustar o "select", ajuste o comando sql em src/models
-    function atualizarGrafico(idAquario, dados, myChart) {
-
-
-
-        fetch(`/medidas/tempo-real/${idAquario}`, { cache: 'no-store' }).then(function (response) {
-            if (response.ok) {
-                response.json().then(function (novoRegistro) {
-
-                    obterdados(idAquario);
-                    // alertar(novoRegistro, idAquario);
-                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-                    console.log(`Dados atuais do gráfico:`);
-                    console.log(dados);
-
-                    let avisoCaptura = document.getElementById(`avisoCaptura${idAquario}`)
-                    avisoCaptura.innerHTML = ""
-
-
-                    if (novoRegistro[0].momento_grafico == dados.labels[dados.labels.length - 1]) {
-                        console.log("---------------------------------------------------------------")
-                        console.log("Como não há dados novos para captura, o gráfico não atualizará.")
-                        avisoCaptura.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Foi trazido o dado mais atual capturado pelo sensor. <br> Como não há dados novos a exibir, o gráfico não atualizará."
-                        console.log("Horário do novo dado capturado:")
-                        console.log(novoRegistro[0].momento_grafico)
-                        console.log("Horário do último dado capturado:")
-                        console.log(dados.labels[dados.labels.length - 1])
-                        console.log("---------------------------------------------------------------")
-                    } else {
-                        // tirando e colocando valores no gráfico
-                        dados.labels.shift(); // apagar o primeiro
-                        dados.labels.push(novoRegistro[0].momento_grafico); // incluir um novo momento
-
-                        dados.datasets[0].data.shift();  // apagar o primeiro de umidade
-                        dados.datasets[0].data.push(novoRegistro[0].umidade); // incluir uma nova medida de umidade
-
-                        dados.datasets[1].data.shift();  // apagar o primeiro de temperatura
-                        dados.datasets[1].data.push(novoRegistro[0].temperatura); // incluir uma nova medida de temperatura
-
-                        myChart.update();
-                    }
-
-                    // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-                    proximaAtualizacao = setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
-                });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
-                // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-                proximaAtualizacao = setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
-            }
-        })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-            });
-
-    }
-</script>

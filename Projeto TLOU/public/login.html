@@ -15,7 +15,6 @@
             <h1 class="titulo">The Last of Us</h1>
             <ul class="navbar">
                 <li><a href="index.html">Inicial</a></li>
-                <li><a href="lore.html">Lore</a></li>
                 <li class="separador">|</li>
                 <li class="agora"><a href="login.html">Login</a></li>
                 <li><a href="cadastro.html">Cadastro</a></li>
@@ -49,7 +48,6 @@
                             autocomplete="new-password" />
                         <button type="button" class="toggle-senha" aria-label="Mostrar senha"
                             onclick="toggleSenha('senha_input', this)">
-                            </svg>
                         </button>
                     </div>
                 </div>
@@ -133,7 +131,7 @@
                     sessionStorage.ID_USUARIO = json.id;
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
+                        window.location = "./dashboard/quiz.html";
                     }, 1000); // apenas para exibir o loading
 
                 });

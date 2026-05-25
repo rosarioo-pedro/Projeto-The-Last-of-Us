@@ -6,13 +6,23 @@ CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(45),
 	email VARCHAR(254),
-	senha VARCHAR(16),
+	senha VARCHAR(16)
 );
 
-create table quiz (
+CREATE TABLE quiz (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	acertos int,
-	erros INT,
+	q1 TINYINT CHECK (q1 IN (0, 1)),
+	q2 TINYINT CHECK (q2 IN (0, 1)),
+	q3 TINYINT CHECK (q3 IN (0, 1)),
+	q4 TINYINT CHECK (q4 IN (0, 1)),
+	q5 TINYINT CHECK (q5 IN (0, 1)),
+	q6 TINYINT CHECK (q6 IN (0, 1)),
+	q7 TINYINT CHECK (q7 IN (0, 1)),
+	q8 TINYINT CHECK (q8 IN (0, 1)),
+	q9 TINYINT CHECK (q9 IN (0, 1)),
+	q10 TINYINT CHECK (q10 IN (0, 1)),
+	q11 TINYINT CHECK (q11 IN (0, 1)),
+	q12 TINYINT CHECK (q12 IN (0, 1)),
 	idUsuario INT,
 	FOREIGN KEY (idUsuario) REFERENCES usuario (id)
 );
