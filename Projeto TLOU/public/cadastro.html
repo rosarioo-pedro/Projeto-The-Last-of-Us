@@ -134,13 +134,7 @@
       setInterval(sumirMensagem, 5000);
     }
 
-    // Verificando se a senha tem mais de 7 caracteres com FOR
-    let contador = 0;
-    for (let i = 0; i < senhaVar.length; i++) {
-      contador++;
-    }
-
-    if (contador < 8) {
+    if (senhaVar.length < 8) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "A senha deve ter no mínimo 8 caracteres";
       return false;
