@@ -7,8 +7,12 @@ router.post("/salvar", function (req, res) {
     quizController.salvar(req, res);
 });
 
-router.get("/metricas", function (req, res) {
-    quizController.obterMetricas(req, res);
+router.get("/ultimas", function (req, res) {
+    quizController.buscarUltimasMedidas(req, res);
+});
+
+router.get("/tempo-real", function (req, res) {
+    quizController.buscarMedidasEmTempoReal(req, res);
 });
 
 module.exports = router;

@@ -21,8 +21,8 @@ function salvar(req, res) {
     }
 }
 
-function obterMetricas(req, res) {
-    quizModel.obterMetricas()
+function buscarUltimasMedidas(req, res) {
+    quizModel.buscarUltimasMedidas()
         .then(function (resultado) {
             if (resultado.length > 0) {
                 var row = resultado[0];
@@ -54,12 +54,50 @@ function obterMetricas(req, res) {
         })
         .catch(function (erro) {
             console.log(erro);
-            console.log("\nHouve um erro ao obter as métricas do quiz! Erro: ", erro.sqlMessage);
+            console.log("\nHouve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function buscarMedidasEmTempoReal(req, res) {
+    quizModel.buscarMedidasEmTempoReal()
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                var row = resultado[0];
+                
+                var metricasFormatadas = {
+                    totalUsuarios: Number(row.totalUsuarios),
+                    totalTentativas: Number(row.totalTentativas),
+                    respostas: [
+                        { acertos: Number(row.acertos_q1), erros: Number(row.erros_q1) },
+                        { acertos: Number(row.acertos_q2), erros: Number(row.erros_q2) },
+                        { acertos: Number(row.acertos_q3), erros: Number(row.erros_q3) },
+                        { acertos: Number(row.acertos_q4), erros: Number(row.erros_q4) },
+                        { acertos: Number(row.acertos_q5), erros: Number(row.erros_q5) },
+                        { acertos: Number(row.acertos_q6), erros: Number(row.erros_q6) },
+                        { acertos: Number(row.acertos_q7), erros: Number(row.erros_q7) },
+                        { acertos: Number(row.acertos_q8), erros: Number(row.erros_q8) },
+                        { acertos: Number(row.acertos_q9), erros: Number(row.erros_q9) },
+                        { acertos: Number(row.acertos_q10), erros: Number(row.erros_q10) },
+                        { acertos: Number(row.acertos_q11), erros: Number(row.erros_q11) },
+                        { acertos: Number(row.acertos_q12), erros: Number(row.erros_q12) }
+                    ]
+                };
+
+                res.status(200).json(metricasFormatadas);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao buscar as medidas em tempo real.", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
 }
 
 module.exports = {
     salvar,
-    obterMetricas
+    buscarUltimasMedidas,
+    buscarMedidasEmTempoReal
 };

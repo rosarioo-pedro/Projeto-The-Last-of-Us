@@ -105,19 +105,19 @@
             pergunta: "Em que ano o surto de Cordyceps colapsou a civilização nos Estados Unidos?",
             alternativas: ["2013", "2010", "2019", "2001"],
             correta: 0,
-            feedback: "O surto ocorreu em 2013 — o mesmo ano do lançamento original do jogo. Vinte anos depois, o mundo já é irreconhecível.",
+            feedback: "O Surto ocorreu em 2013, na mesmo ano de lançamento do primeiro jogo.",
         },
         {
             pergunta: "Qual é o gênero do fungo mutante responsável pela pandemia em The Last of Us?",
             alternativas: ["Ophiocordyceps", "Cordyceps", "Aspergillus", "Clathrus"],
             correta: 1,
-            feedback: "O fungo é do gênero Cordyceps — inspirado no fungo real que parasita insetos, mas aqui mutado para infectar humanos.",
+            feedback: "O gênero do fungo é o Cordyceps, um fungo que existe na vida real, mas no jogo fui mutado e agora infecta seres humanos.",
         },
         {
             pergunta: "Como são chamados os infectados em estágio final, cujo corpo foi quase completamente consumido pelo fungo?",
             alternativas: ["Estaladores", "Espreitadores", "Baiacus", "Corredores"],
             correta: 2,
-            feedback: "Os Baiacus são o estágio final da infecção. O fungo consumiu quase todo o corpo, criando uma carapaça grossa e deixando apenas agressividade.",
+            feedback: "Os Baiacus são o estágio final da infecção. O fungo consumiu quase todo o corpo, criando uma carapaça grossa.",
         },
         {
             pergunta: "Qual mecanismo os Estaladores usam para detectar suas vítimas?",
@@ -128,19 +128,19 @@
                 "Sensores de calor corporal",
             ],
             correta: 2,
-            feedback: "Os Estaladores são cegos, mas emitem estalos para localizar presas por ecolocalização — semelhante aos morcegos. Fique em silêncio.",
+            feedback: "Os Estaladores são cegos, mas emitem estalos para localizar presas por ecolocalização.",
         },
         {
             pergunta: "Qual organização controlava as zonas de quarentena nos Estados Unidos pós-surto?",
             alternativas: ["FEDRA", "Vagalumes", "QEDs", "Milícia Boston"],
             correta: 0,
-            feedback: "A FEDRA (Federal Disaster Response Agency) administrava as zonas de quarentena com mão de ferro — ordem à custa da liberdade.",
+            feedback: "A FEDRA (Federal Disaster Response Agency) administrava as zonas de quarentena militares.",
         },
         {
             pergunta: "Qual é o nome completo do grupo rebelde que se opõe à FEDRA?",
             alternativas: ["Serafitas", "Vagalumes", "Lucciole", "Luzes da Liberdade"],
             correta: 1,
-            feedback: "Os Vagalumes (Fireflies em inglês) lutavam pela restauração do governo democrático e buscavam uma cura — a missão que define o primeiro jogo.",
+            feedback: "Os Vagalumes (Fireflies em inglês) lutavam pela restauração do governo democrático e buscavam uma cura.",
         },
         {
             pergunta: "O que Joel faz no final de The Last of Us Parte I que define toda a narrativa da Parte II?",
@@ -151,19 +151,19 @@
                 "Destrói o laboratório dos Vagalumes com explosivos",
             ],
             correta: 1,
-            feedback: "Joel mata os cirurgiões — incluindo o pai de Abby — e salva Ellie, mentindo para ela depois. Essa escolha ecoa por toda a Parte II.",
+            feedback: "Joel mata os cirurgiões — incluindo o pai de Abby — e salva Ellie, mentindo para ela depois.",
         },
         {
             pergunta: "Em qual cidade a maior parte de The Last of Us Parte II se passa?",
             alternativas: ["Boston", "Pittsburgh", "Seattle", "Salt Lake City"],
             correta: 2,
-            feedback: "Seattle é o cenário central da Parte II — dividida entre os WLF (Washington Liberation Front) e os Serafitas, duas facções em guerra.",
+            feedback: "Seattle é o cenário central da Parte II.",
         },
         {
             pergunta: "Qual instrumento musical está associado a Ellie ao longo da saga?",
             alternativas: ["Violino", "Violão/Guitarra", "Piano", "Gaita"],
             correta: 1,
-            feedback: "O violão é símbolo da conexão entre Joel e Ellie — ele a ensina a tocar. Na Parte II, esse instrumento carrega toda a carga emocional da relação.",
+            feedback: "O violão é símbolo da conexão entre Joel e Ellie, ele a ensina a tocar.",
         },
         {
             pergunta: "O que torna Ellie única e biologicamente especial no universo de The Last of Us?",
@@ -174,7 +174,7 @@
                 "Ela foi vacinada antes do colapso",
             ],
             correta: 1,
-            feedback: "Ellie foi mordida aos 14 anos e não se transformou. Sua imunidade é natural e inexplicada — a base para a busca de uma cura.",
+            feedback: "Ellie foi mordida aos 14 anos e não se transformou.",
         },
         {
             pergunta: "Quem é Abby, a personagem central de The Last of Us Parte II?",
@@ -185,7 +185,7 @@
                 "Líder dos Vagalumes após os eventos da Parte I",
             ],
             correta: 1,
-            feedback: "Abby é filha do Dr. Jerry Anderson, o cirurgião Firefly cuja morte define a Parte II. Ela força o jogador a enxergar o humano no 'vilão'.",
+            feedback: "Abby é filha do Dr. Jerry Anderson, o cirurgião Firefly cuja morte define a Parte II.",
         },
         {
             pergunta: "Qual é o grande tema narrativo que The Last of Us Parte II explora de forma mais corajosa?",
@@ -196,7 +196,7 @@
                 "A descoberta de uma vacina contra o Cordyceps",
             ],
             correta: 1,
-            feedback: "A Parte II é uma meditação sobre ódio, ciclos de violência e empatia — forçando o jogador a sentir empatia por quem parecia ser o inimigo.",
+            feedback: "A Parte II é uma meditação sobre ódio, ciclos de violência e empatia.",
         },
     ];
 
@@ -206,8 +206,7 @@
 
     let respostas = [];
     for (let i = 0; i < 12; i++) {
-        // Inicializa o array de respostas com 12 objetos, cada um com acertos e erros zerados
-        respostas.push({ acertos: 0, erros: 0 });
+        respostas.push({ acertos: 0, erros: 0 });   // Inicializa o array de respostas com 12 objetos, cada um com acertos e erros zerados
     }
 
     function renderizarPergunta() {
@@ -216,49 +215,44 @@
 
         let numero = perguntaAtual + 1;
         let numeroTexto = "";
-        if (numero < 10) {
-            // Adiciona um zero cosmético a esquerda para números com apenas um dígito
+        if (numero < 10) {                         // Adiciona um zero cosmético a esquerda para números com apenas um dígito
             numeroTexto = "0" + numero;
         } else {
             numeroTexto = numero;
         }
 
         idNumeroPergunta.innerHTML = "Pergunta " + numeroTexto; // Atualiza o número da pergunta
-        idTextoPergunta.innerHTML = questao.pergunta; // Atualiza o texto da pergunta
-        idProgressoNum.innerHTML = numero + " / 12"; // Atualiza o número da pergunta e o total de perguntas
+        idTextoPergunta.innerHTML = questao.pergunta;           // Atualiza o texto da pergunta
+        idProgressoNum.innerHTML = numero + " / 12";            // Atualiza o número da pergunta e o total de perguntas
 
-        idFeedbackBox.style.display = "none"; // Esconde o feedback
-        idFeedbackBox.className = "quiz-feedback"; // Reseta a classe do feedback
-        idBtnProximo.style.display = "none"; // Esconde o botão de próxima pergunta
+        idFeedbackBox.style.display = "none";                   // Esconde o feedback
+        idFeedbackBox.className = "quiz-feedback";              // Reseta a classe do feedback
+        idBtnProximo.style.display = "none";                    // Esconde o botão de próxima pergunta
 
-        let letras = ["A", "B", "C", "D"]; // Define as letras para as alternativas
+        let letras = ["A", "B", "C", "D"];                      // Define as letras para as alternativas
         let htmlAlternativas = "";
 
-        for (let i = 0; i < questao.alternativas.length; i++) {
-            // Percorre as alternativas e cria os botões com as letras e textos correspondentes
-            let textoAlternativa = questao.alternativas[i]; // Obtém o texto da alternativa
-            let letra = letras[i];// Obtém a letra correspondente
-            htmlAlternativas += `<button class="quiz-alt" id="idBtnAlternativa${i}" onclick="responder(${i})">`; // Cria cada botão e sua função de clique
-            htmlAlternativas += `<span class="quiz-alt-letra">${letra}</span><span>${textoAlternativa}</span>`; // Adiciona a letra e o texto da alternativa
+        for (let i = 0; i < questao.alternativas.length; i++) { // Percorre as alternativas e cria os botões com as letras e textos correspondentes
+            let textoAlternativa = questao.alternativas[i];     // Obtém o texto da alternativa
+            let letra = letras[i];                              // Obtém a letra correspondente
+            htmlAlternativas += `<button class="quiz-alt" id="idBtnAlternativa${i}" onclick="responder(${i})">`;    // Cria cada botão e sua função de clique
+            htmlAlternativas += `<span class="quiz-alt-letra">${letra}</span><span>${textoAlternativa}</span>`;     // Adiciona a letra e o texto da alternativa
             htmlAlternativas += `</button>`;
         }
         idAlternativas.innerHTML = htmlAlternativas;
     }
 
-    function responder(indice) {
-        // Função de clique nos botões de alternativa
-        if (respondeu) {
-            // Verifica se já respondeu para evitar duplo clique
-            return; // Sai da função se já respondeu
+    function responder(indice) {                // Função de clique nos botões de alternativa
+        if (respondeu) {                        // Verifica se já respondeu para evitar duplo clique
+            return;                             // Sai da função se já respondeu
         }
-        respondeu = true; // Marca que já respondeu para evitar duplo clique
+        respondeu = true;                       // Marca que já respondeu para evitar duplo clique
 
         let questao = PERGUNTAS[perguntaAtual];
         let acertou = false;
 
-        if (indice == questao.correta) {
-            // Verifica se a resposta está correta
-            acertou = true; // Marca como acertou se a resposta estiver correta
+        if (indice == questao.correta) {        // Verifica se a resposta está correta         
+            acertou = true;                     // Marca como acertou se a resposta estiver correta
         }
 
         for (let i = 0; i < questao.alternativas.length; i++) {
@@ -360,15 +354,15 @@
                 })
             }).then(function (res) {
                 if (res.ok) {
-                    console.log("Resultado do quiz salvo com sucesso no banco de dados.");
+                    console.log("salvou o quiz no banco de dados.");
                 } else {
-                    console.error("Erro ao salvar resultado do quiz.");
+                    console.log("deu erro pra salvar o quiz.");
                 }
             }).catch(function (err) {
-                console.error("Erro na requisição de salvamento do quiz:", err);
+                console.log("Erro na requisição de salvamento do quiz:", err);
             });
         } else {
-            console.warn("Usuário não logado. O resultado do quiz não será persistido no banco de dados.");
+            console.log("Usuario nao esta logado entao nao vai salvar no banco.");
         }
     }
 

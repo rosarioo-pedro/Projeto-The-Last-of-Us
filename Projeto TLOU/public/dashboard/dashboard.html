@@ -137,50 +137,57 @@
 
     <script>
         // ---- Usuário ----
-        idUsuario.innerHTML = "Sobrevivente";
+        var email = sessionStorage.EMAIL_USUARIO;
+        var nome = sessionStorage.NOME_USUARIO;
+
+        if (email == null || nome == null) {
+            window.location = "../login.html";
+        } else {
+            idUsuario.innerHTML = nome;
+        }
 
         let proximaAtualizacao;
         let chartBarras, chartPizza, chartLinha;
 
-        // ---- Leitura das variáveis de tema do CSS ----
-        let estiloRaiz = getComputedStyle(document.documentElement);
+        window.onload = obterDadosGrafico();
 
-        function lerCor(variavel) {
-            return estiloRaiz.getPropertyValue(variavel).trim();
+        function obterDadosGrafico() {
+            if (proximaAtualizacao != undefined) {
+                clearTimeout(proximaAtualizacao);
+            }
+
+            fetch(`/quiz/ultimas`, { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    if (response.status == 204) {
+                        idStatTentativas.innerHTML = "0";
+                        idTotalUsuarios.innerHTML = "0";
+                        idStatAcertos.innerHTML = "0";
+                        idStatErros.innerHTML = "0";
+                        idStatMaisDificil.innerHTML = "N/A";
+
+                        let respostasZeradas = [];
+                        for (let i = 0; i < 12; i++) {
+                            respostasZeradas.push({ acertos: 0, erros: 0 });
+                        }
+                        plotarGrafico({ respostas: respostasZeradas, totalTentativas: 0, totalUsuarios: 0 });
+                    } else {
+                        response.json().then(function (resposta) {
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                            plotarGrafico(resposta);
+                        });
+                    }
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
         }
 
-        let corLegenda = lerCor("--grafico-cor-legenda");
-        let fundoTooltip = lerCor("--grafico-fundo-tooltip");
-        let corTituloTooltip = lerCor("--grafico-titulo-tooltip");
-        let corTextoTooltip = lerCor("--grafico-texto-tooltip");
-        let corBordaTooltip = lerCor("--grafico-borda-tooltip");
-        let corMarcacao = lerCor("--grafico-cor-marcacao");
-        let corGrade = lerCor("--grafico-cor-grade");
+        function plotarGrafico(resposta) {
+            console.log('iniciando plotagem do gráfico...');
 
-        let corAcertoFundo = lerCor("--grafico-acerto-fundo");
-        let corAcertoBorda = lerCor("--grafico-acerto-borda");
-        let corErroFundo = lerCor("--grafico-erro-fundo");
-        let corErroBorda = lerCor("--grafico-erro-borda");
-
-        let corPizzaAcertoFundo = lerCor("--grafico-pizza-acerto-fundo");
-        let corPizzaAcertoBorda = lerCor("--grafico-pizza-acerto-borda");
-        let corPizzaErroFundo = lerCor("--grafico-pizza-erro-fundo");
-        let corPizzaErroBorda = lerCor("--grafico-pizza-erro-borda");
-
-        let corLinhaFundo = lerCor("--grafico-linha-fundo");
-        let corLinhaBorda = lerCor("--grafico-linha-borda");
-
-        let corPontoDificil = lerCor("--grafico-ponto-dificil");
-        let corPontoMedio = lerCor("--grafico-ponto-medio");
-        let corPontoFacil = lerCor("--grafico-ponto-facil");
-
-        let fonteTitulo = lerCor("--grafico-fonte-titulo");
-        let fonteCorpo = lerCor("--grafico-fonte-corpo");
-        let tamanhoTitulo = parseInt(lerCor("--grafico-tamanho-titulo"));
-        let tamanhoCorpo = parseInt(lerCor("--grafico-tamanho-corpo"));
-
-        // ---- Renderizar dashboard ----
-        function renderizarDashboard(respostas, totalUsuariosParam) {
             let rotulos = [];
             let acertos = [];
             let erros = [];
@@ -188,10 +195,10 @@
             let totalAcertos = 0;
             let totalErros = 0;
 
-            for (let i = 0; i < respostas.length; i++) {
+            for (let i = 0; i < resposta.respostas.length; i++) {
                 rotulos[i] = "P" + (i + 1);
-                acertos[i] = respostas[i].acertos;
-                erros[i] = respostas[i].erros;
+                acertos[i] = resposta.respostas[i].acertos;
+                erros[i] = resposta.respostas[i].erros;
                 totalAcertos += acertos[i];
                 totalErros += erros[i];
 
@@ -203,7 +210,6 @@
                 }
             }
 
-            // Pergunta mais difícil
             let menorTaxa = taxas[0];
             let idxMaisDificil = 0;
             for (let i = 1; i < taxas.length; i++) {
@@ -213,166 +219,25 @@
                 }
             }
 
-            // Preenche os cards de estatísticas
-            idStatTentativas.innerHTML = totalUsuariosParam;
-            idTotalUsuarios.innerHTML = totalUsuariosParam;
+            idStatTentativas.innerHTML = resposta.totalTentativas;
+            idTotalUsuarios.innerHTML = resposta.totalUsuarios;
             idStatAcertos.innerHTML = totalAcertos;
             idStatErros.innerHTML = totalErros;
             idStatMaisDificil.innerHTML = "P" + (idxMaisDificil + 1);
 
-            plotarBarras(rotulos, acertos, erros);
-            plotarPizza(totalAcertos, totalErros);
-            plotarLinha(rotulos, taxas);
-        }
+            let dadosBarras = {
+                labels: rotulos,
+                datasets: [
+                    { label: "Acertos", data: acertos, backgroundColor: '#6b8a3a', borderColor: '#51682c', borderWidth: 1, borderRadius: 2 },
+                    { label: "Erros", data: erros, backgroundColor: '#a84820', borderColor: '#7a3010', borderWidth: 1, borderRadius: 2 }
+                ]
+            };
 
-        // ---- Gráfico de Barras (acerto/erro por pergunta) ----
-        function plotarBarras(rotulos, acertos, erros) {
-            if (chartBarras) {
-                chartBarras.destroy();
-            }
+            let dadosPizza = {
+                labels: ["Acertos", "Erros"],
+                datasets: [{ data: [totalAcertos, totalErros], backgroundColor: ['#6b8a3a', '#a84820'], borderColor: ['#51682c', '#7a3010'], borderWidth: 1 }]
+            };
 
-            chartBarras = new Chart(idGraficoBarras.getContext("2d"), {
-                type: "bar",
-                data: {
-                    labels: rotulos,
-                    datasets: [
-                        {
-                            label: "Acertos",
-                            data: acertos,
-                            backgroundColor: corAcertoFundo,
-                            borderColor: corAcertoBorda,
-                            borderWidth: 1,
-                            borderRadius: 2,
-                        },
-                        {
-                            label: "Erros",
-                            data: erros,
-                            backgroundColor: corErroFundo,
-                            borderColor: corErroBorda,
-                            borderWidth: 1,
-                            borderRadius: 2,
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    interaction: { mode: "index", intersect: false },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: corLegenda,
-                                font: { family: fonteTitulo, size: tamanhoCorpo },
-                                boxWidth: 12,
-                            },
-                        },
-                        tooltip: {
-                            backgroundColor: fundoTooltip,
-                            titleColor: corTituloTooltip,
-                            bodyColor: corTextoTooltip,
-                            borderColor: corBordaTooltip,
-                            borderWidth: 1,
-                            titleFont: { family: fonteTitulo, size: tamanhoTitulo },
-                            bodyFont: { family: fonteCorpo, size: tamanhoCorpo },
-                            callbacks: {
-                                afterBody: function (items) {
-                                    let qtdAcertos = 0;
-                                    let qtdErros = 0;
-                                    for (let i = 0; i < items.length; i++) {
-                                        if (items[i].dataset.label == "Acertos") {
-                                            qtdAcertos = items[i].raw;
-                                        }
-                                        if (items[i].dataset.label == "Erros") {
-                                            qtdErros = items[i].raw;
-                                        }
-                                    }
-                                    let total = qtdAcertos + qtdErros;
-                                    if (total > 0) {
-                                        return ["Taxa de acerto: " + ((qtdAcertos / total) * 100).toFixed(1) + "%"];
-                                    }
-                                    return [];
-                                },
-                            },
-                        },
-                    },
-                    scales: {
-                        x: {
-                            ticks: { color: corMarcacao, font: { size: tamanhoTitulo } },
-                            grid: { color: corGrade },
-                        },
-                        y: {
-                            ticks: { color: corMarcacao, font: { size: tamanhoTitulo } },
-                            grid: { color: corGrade },
-                            beginAtZero: true,
-                        },
-                    },
-                },
-            });
-        }
-
-        // ---- Gráfico de Rosca ----
-        function plotarPizza(totalAcertos, totalErros) {
-            if (chartPizza) {
-                chartPizza.destroy();
-            }
-
-            chartPizza = new Chart(idGraficoPizza.getContext("2d"), {
-                type: "doughnut",
-                data: {
-                    labels: ["Acertos", "Erros"],
-                    datasets: [
-                        {
-                            data: [totalAcertos, totalErros],
-                            backgroundColor: [corPizzaAcertoFundo, corPizzaErroFundo],
-                            borderColor: [corPizzaAcertoBorda, corPizzaErroBorda],
-                            borderWidth: 1,
-                            hoverOffset: 6,
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    cutout: "62%",
-                    plugins: {
-                        legend: {
-                            position: "bottom",
-                            labels: {
-                                color: corLegenda,
-                                font: { family: fonteCorpo, size: tamanhoCorpo },
-                                boxWidth: 12,
-                                padding: 16,
-                            },
-                        },
-                        tooltip: {
-                            backgroundColor: fundoTooltip,
-                            titleColor: corTituloTooltip,
-                            bodyColor: corTextoTooltip,
-                            borderColor: corBordaTooltip,
-                            borderWidth: 1,
-                            titleFont: { family: fonteTitulo, size: tamanhoTitulo },
-                            bodyFont: { family: fonteCorpo, size: tamanhoCorpo },
-                            callbacks: {
-                                label: function (item) {
-                                    let total = totalAcertos + totalErros;
-                                    let porcentagem = 0;
-                                    if (total > 0) {
-                                        porcentagem = ((item.raw / total) * 100).toFixed(1);
-                                    }
-                                    return ` ${item.label}: ${item.raw} (${porcentagem}%)`;
-                                },
-                            },
-                        },
-                    },
-                },
-            });
-        }
-
-        // ---- Gráfico de Linha: ranking de dificuldade ----
-        function plotarLinha(rotulos, taxas) {
-            if (chartLinha) {
-                chartLinha.destroy();
-            }
-
-            // Ordenação por Bubble Sort (menor para maior taxa)
             let ordenado = [];
             for (let i = 0; i < rotulos.length; i++) {
                 ordenado[i] = { rotulo: rotulos[i], taxa: taxas[i] };
@@ -386,139 +251,120 @@
                     }
                 }
             }
-
             let rotulosOrdenados = [];
             let taxasOrdenadas = [];
-            let coresOrdenadas = [];
-
             for (let i = 0; i < ordenado.length; i++) {
                 rotulosOrdenados[i] = ordenado[i].rotulo;
                 taxasOrdenadas[i] = ordenado[i].taxa;
-
-                if (ordenado[i].taxa < 40) {
-                    coresOrdenadas[i] = corPontoDificil;
-                } else if (ordenado[i].taxa < 70) {
-                    coresOrdenadas[i] = corPontoMedio;
-                } else {
-                    coresOrdenadas[i] = corPontoFacil;
-                }
             }
 
-            chartLinha = new Chart(idGraficoLinha.getContext("2d"), {
-                type: "line",
-                data: {
-                    labels: rotulosOrdenados,
-                    datasets: [
-                        {
-                            label: "Taxa de Acerto (%)",
-                            data: taxasOrdenadas,
-                            fill: true,
-                            backgroundColor: corLinhaFundo,
-                            borderColor: corLinhaBorda,
-                            tension: 0.35,
-                            pointBackgroundColor: coresOrdenadas,
-                            pointRadius: 5,
-                            pointHoverRadius: 7,
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: corLegenda,
-                                font: { family: fonteCorpo, size: tamanhoCorpo },
-                                boxWidth: 12,
-                            },
-                        },
-                        tooltip: {
-                            backgroundColor: fundoTooltip,
-                            titleColor: corTituloTooltip,
-                            bodyColor: corTextoTooltip,
-                            borderColor: corBordaTooltip,
-                            borderWidth: 1,
-                            titleFont: { family: fonteTitulo, size: tamanhoTitulo },
-                            bodyFont: { family: fonteCorpo, size: tamanhoCorpo },
-                            callbacks: {
-                                label: function (item) {
-                                    return ` Taxa de acerto: ${item.raw}%`;
-                                },
-                            },
-                        },
-                    },
-                    scales: {
-                        x: {
-                            ticks: { color: corMarcacao, font: { size: tamanhoTitulo } },
-                            grid: { color: corGrade },
-                        },
-                        y: {
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                color: corMarcacao,
-                                font: { size: tamanhoTitulo },
-                                callback: function (v) {
-                                    return v + "%";
-                                },
-                            },
-                            grid: { color: corGrade },
-                        },
-                    },
-                },
-            });
+            let dadosLinha = {
+                labels: rotulosOrdenados,
+                datasets: [{ label: "Taxa de Acerto (%)", data: taxasOrdenadas, backgroundColor: '#6b8a3a33', borderColor: '#6b8a3a', borderWidth: 2 }]
+            };
+
+            if (chartBarras) chartBarras.destroy();
+            chartBarras = new Chart(document.getElementById(`idGraficoBarras`), { type: 'bar', data: dadosBarras });
+
+            if (chartPizza) chartPizza.destroy();
+            chartPizza = new Chart(document.getElementById(`idGraficoPizza`), { type: 'doughnut', data: dadosPizza });
+
+            if (chartLinha) chartLinha.destroy();
+            chartLinha = new Chart(document.getElementById(`idGraficoLinha`), { type: 'line', data: dadosLinha });
+
+            setTimeout(() => atualizarGrafico(dadosBarras, dadosPizza, dadosLinha), 2000);
         }
 
-        function carregarDados() {
-            var email = sessionStorage.EMAIL_USUARIO;
-            var nome = sessionStorage.NOME_USUARIO;
+        function atualizarGrafico(dadosBarras, dadosPizza, dadosLinha) {
+            fetch(`/quiz/tempo-real`, { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (novoRegistro) {
 
-            if (email == null || nome == null) {
-                window.location = "../login.html";
-                return;
-            }
+                        let rotulos = [];
+                        let acertos = [];
+                        let erros = [];
+                        let taxas = [];
+                        let totalAcertos = 0;
+                        let totalErros = 0;
 
-            idUsuario.innerHTML = nome;
+                        for (let i = 0; i < novoRegistro.respostas.length; i++) {
+                            rotulos[i] = "P" + (i + 1);
+                            acertos[i] = novoRegistro.respostas[i].acertos;
+                            erros[i] = novoRegistro.respostas[i].erros;
+                            totalAcertos += acertos[i];
+                            totalErros += erros[i];
 
-            fetch("/quiz/metricas", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-                .then(function (resposta) {
-                    if (resposta.ok) {
-                        if (resposta.status == 204) {
-                            idStatTentativas.innerHTML = "0";
-                            idTotalUsuarios.innerHTML = "0";
-                            idStatAcertos.innerHTML = "0";
-                            idStatErros.innerHTML = "0";
-                            idStatMaisDificil.innerHTML = "N/A";
-
-                            let respostasZeradas = [];
-                            for (let i = 0; i < 12; i++) {
-                                respostasZeradas.push({ acertos: 0, erros: 0 });
+                            let total = acertos[i] + erros[i];
+                            if (total > 0) {
+                                taxas[i] = parseFloat(((acertos[i] / total) * 100).toFixed(1));
+                            } else {
+                                taxas[i] = 0;
                             }
-                            renderizarDashboard(respostasZeradas, 0);
-                            return;
                         }
 
-                        resposta.json().then(function (dados) {
-                            console.log("Dados recebidos do banco:", dados);
-                            renderizarDashboard(dados.respostas, dados.totalTentativas);
-                            idTotalUsuarios.innerHTML = dados.totalUsuarios;
-                        });
-                    } else {
-                        console.error("Erro ao obter dados das métricas do quiz.");
-                    }
-                })
-                .catch(function (erro) {
-                    console.error("Erro na requisição das métricas:", erro);
+                        let menorTaxa = taxas[0];
+                        let idxMaisDificil = 0;
+                        for (let i = 1; i < taxas.length; i++) {
+                            if (taxas[i] < menorTaxa) {
+                                menorTaxa = taxas[i];
+                                idxMaisDificil = i;
+                            }
+                        }
+
+                        document.getElementById('idStatTentativas').innerHTML = novoRegistro.totalTentativas;
+                        document.getElementById('idTotalUsuarios').innerHTML = novoRegistro.totalUsuarios;
+                        document.getElementById('idStatAcertos').innerHTML = totalAcertos;
+                        document.getElementById('idStatErros').innerHTML = totalErros;
+                        document.getElementById('idStatMaisDificil').innerHTML = "P" + (idxMaisDificil + 1);
+
+                        // Tirando e colocando valores no gráfico
+                        dadosBarras.datasets[0].data = acertos;
+                        dadosBarras.datasets[1].data = erros;
+                        chartBarras.update();
+
+                        dadosPizza.datasets[0].data = [totalAcertos, totalErros];
+                        chartPizza.update();
+
+                        let ordenado = [];
+                        for (let i = 0; i < rotulos.length; i++) {
+                            ordenado[i] = { rotulo: rotulos[i], taxa: taxas[i] };
+                        }
+                        for (let i = 0; i < ordenado.length; i++) {
+                            for (let j = 0; j < ordenado.length - 1 - i; j++) {
+                                if (ordenado[j].taxa > ordenado[j + 1].taxa) {
+                                    let aux = ordenado[j];
+                                    ordenado[j] = ordenado[j + 1];
+                                    ordenado[j + 1] = aux;
+                                }
+                            }
+                        }
+                        let rotulosOrdenados = [];
+                        let taxasOrdenadas = [];
+                        for (let i = 0; i < ordenado.length; i++) {
+                            rotulosOrdenados[i] = ordenado[i].rotulo;
+                            taxasOrdenadas[i] = ordenado[i].taxa;
+                        }
+
+                        dadosLinha.labels = rotulosOrdenados;
+                        dadosLinha.datasets[0].data = taxasOrdenadas;
+                        chartLinha.update();
+
+                        let avisoAtualizacao = document.getElementById('idAvisoAtualizacao');
+                        let dataAgora = new Date();
+                        avisoAtualizacao.innerHTML = "Última atualização: " + dataAgora.getHours() + ":" + dataAgora.getMinutes() + ":" + dataAgora.getSeconds();
+
+                        proximaAtualizacao = setTimeout(() => atualizarGrafico(dadosBarras, dadosPizza, dadosLinha), 2000);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                    proximaAtualizacao = setTimeout(() => atualizarGrafico(dadosBarras, dadosPizza, dadosLinha), 2000);
+                }
+            })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                    proximaAtualizacao = setTimeout(() => atualizarGrafico(dadosBarras, dadosPizza, dadosLinha), 2000);
                 });
         }
-
-        // ---- Init ----
-        window.onload = carregarDados;
     </script>
 </body>
 

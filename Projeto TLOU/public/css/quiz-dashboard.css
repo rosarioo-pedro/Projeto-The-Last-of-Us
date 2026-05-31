@@ -1,37 +1,4 @@
-/* CORES PARA OS GRÁFICOS */
-
-:root {
-    /* Legenda */
-    --grafico-cor-legenda: #e8d5b099;
-    --grafico-fundo-tooltip: #111009f2;
-    --grafico-titulo-tooltip: #c4921ae6;
-    --grafico-texto-tooltip: #d8c99ccc;
-    --grafico-borda-tooltip: #c4921a33;
-    --grafico-cor-marcacao: #b8a88273;
-    --grafico-cor-grade: #c4921a0d;
-
-    --grafico-acerto-fundo: #6b8a3abf;
-    --grafico-acerto-borda: #6b8a3ae6;
-    --grafico-erro-fundo: #7a3010a6;
-    --grafico-erro-borda: #a84820cc;
-
-    --grafico-pizza-acerto-fundo: #6b8a3acc;
-    --grafico-pizza-acerto-borda: #6b8a3a;
-    --grafico-pizza-erro-fundo: #7a3010b3;
-    --grafico-pizza-erro-borda: #a84820e6;
-
-    --grafico-linha-fundo: #6b8a3a12;
-    --grafico-linha-borda: #6b8a3abf;
-
-    --grafico-ponto-dificil: #a84820e6;
-    --grafico-ponto-medio: #c4921ae6;
-    --grafico-ponto-facil: #6b8a3ae6;
-
-    --grafico-fonte-titulo: "Cinzel", serif;
-    --grafico-fonte-corpo: "Crimson Pro", serif;
-    --grafico-tamanho-titulo: 11px;
-    --grafico-tamanho-corpo: 13px;
-}
+/* CORES PARA OS GRÁFICOS (Removidas a pedido do usuário) */
 
 .pagina-interna {
     min-height: 100vh;
@@ -59,7 +26,7 @@
 
 .divisor-secao {
     border-bottom: 1px solid #c4921a26;
-    margin: clamp(1.5rem, 3vh, 2.5rem) 0;
+    margin: 2.5rem 0;
 }
 
 .rodape {
@@ -81,7 +48,7 @@
 
 .rodape .rodape-texto {
     font-family: "Special Elite", cursive;
-    font-size: clamp(0.72rem, 0.88vw, 0.82rem);
+    font-size: 0.82rem;
     color: var(--musgo-brilho);
     opacity: 0.5;
     line-height: 1.5;
@@ -120,25 +87,11 @@ QUIZ
 }
 
 .quiz-card {
-    background-color: #0b0a07cc;
-    backdrop-filter: blur(18px);
+    background-color: #0b0a07ee;
     border: 1px solid #c4921a38;
-    box-shadow:
-        0 0 0 1px #c4921a0f inset,
-        0 32px 64px #0000008c;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
-    position: relative;
-}
-
-.quiz-card::before,
-.dash-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(to bottom, var(--ambar), transparent);
+    border-left: 3px solid var(--ambar);
+    box-shadow: 2px 2px 10px #000000;
+    padding: 2.5rem;
 }
 
 .quiz-num-pergunta {
@@ -154,7 +107,7 @@ QUIZ
 
 .quiz-pergunta {
     font-family: "Crimson Pro", Georgia, serif;
-    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    font-size: 1.35rem;
     color: var(--osso);
     line-height: 1.65;
     margin-bottom: 1.8rem;
@@ -178,7 +131,7 @@ QUIZ
     gap: 0.85rem;
     text-align: left;
     font-family: "Crimson Pro", serif;
-    font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+    font-size: 1.05rem;
     color: var(--creme);
     width: 100%;
     position: relative;
@@ -258,7 +211,7 @@ QUIZ
 
 .quiz-feedback-texto {
     font-family: "Crimson Pro", serif;
-    font-size: clamp(0.88rem, 1.1vw, 1rem);
+    font-size: 1rem;
     color: var(--creme);
     opacity: 0.82;
     line-height: 1.75;
@@ -288,7 +241,7 @@ QUIZ
 
 .quiz-pontuacao {
     font-family: "Cinzel", serif;
-    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-size: 6rem;
     font-weight: 900;
     color: var(--ambar);
     line-height: 1;
@@ -346,11 +299,10 @@ DASHBOARD
 }
 
 .dash-card {
-    position: relative;
     background-color: #ffffff05;
     border: 1px solid #c4921a1f;
-    padding: clamp(1.2rem, 2.5vh, 2rem) clamp(1.2rem, 2vw, 2rem);
-    overflow: hidden;
+    border-left: 3px solid var(--ambar);
+    padding: 2rem;
 }
 
 .dash-card-titulo {
@@ -365,7 +317,7 @@ DASHBOARD
 
 .dash-card-sub {
     font-family: "Crimson Pro", serif;
-    font-size: clamp(0.82rem, 1vw, 0.9rem);
+    font-size: 0.9rem;
     color: var(--creme-escuro);
     opacity: 0.42;
     line-height: 1.5;
@@ -374,7 +326,7 @@ DASHBOARD
 
 .dash-numero-grande {
     font-family: "Cinzel", serif;
-    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-size: 5rem;
     font-weight: 900;
     color: var(--ambar);
     line-height: 1;
@@ -384,7 +336,7 @@ DASHBOARD
 
 .dash-numero-label {
     font-family: "Crimson Pro", serif;
-    font-size: clamp(0.88rem, 1vw, 1rem);
+    font-size: 1rem;
     color: var(--creme);
     opacity: 0.55;
     line-height: 1.6;
@@ -398,29 +350,18 @@ DASHBOARD
 }
 
 .dash-stat {
-    position: relative;
     background-color: #ffffff05;
     border: 1px solid #c4921a1f;
+    border-left: 3px solid var(--ambar);
     padding: 1.2rem 1.4rem;
-    overflow: hidden;
 }
 
-.dash-stat::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(to bottom, var(--ambar), transparent);
+.dash-stat.verde {
+    border-left-color: var(--musgo-brilho);
 }
 
-.dash-stat.verde::before {
-    background: linear-gradient(to bottom, var(--musgo-brilho), transparent);
-}
-
-.dash-stat.ferrugem::before {
-    background: linear-gradient(to bottom, var(--ferrugem-claro), transparent);
+.dash-stat.ferrugem {
+    border-left-color: var(--ferrugem-claro);
 }
 
 .dash-stat-rotulo {
@@ -436,7 +377,7 @@ DASHBOARD
 
 .dash-stat-valor {
     font-family: "Cinzel", serif;
-    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-size: 2.2rem;
     font-weight: 900;
     color: var(--ambar);
     line-height: 1;
