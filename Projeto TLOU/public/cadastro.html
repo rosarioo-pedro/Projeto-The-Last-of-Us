@@ -57,7 +57,8 @@
             <div class="input-wrapper">
               <input class="form-input" type="password" id="senha_input" name="senha" placeholder="••••••••"
                 autocomplete="new-password" />
-              <button type="button" class="toggle-senha" onclick="toggleSenha('senha_input', this)">👁</button>
+              <button type="button" id="btn_senha" class="toggle-senha"
+                onclick="toggleSenha('senha_input', 'btn_senha')">👁</button>
             </div>
           </div>
 
@@ -66,8 +67,7 @@
             <div class="input-wrapper">
               <input class="form-input" type="password" id="confirmacao_senha_input" name="confirmar"
                 placeholder="••••••••" autocomplete="new-password" />
-              <button type="button" class="toggle-senha"
-                onclick="toggleSenha('confirmacao_senha_input', this)">👁</button>
+              <button type="button" class="toggle-senha" onclick="toggleSenha('confirmacao_senha_input')">👁</button>
             </div>
           </div>
         </div>
@@ -190,13 +190,14 @@
 
   function toggleSenha(inputId, botao) {
     let input = document.getElementById(inputId);
+    let btn = document.getElementById(botao)
 
     if (input.type === 'password') {
       input.type = 'text';
-      botao.textContent = '🔓';
+      btn.textContent = '🔓';
     } else {
       input.type = 'password';
-      botao.textContent = '👁';
+      btn.textContent = '👁';
     }
   }
 

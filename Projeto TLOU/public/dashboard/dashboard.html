@@ -210,6 +210,8 @@
                 }
             }
 
+            //questão mais difícil
+
             let menorTaxa = taxas[0];
             let idxMaisDificil = 0;
             for (let i = 1; i < taxas.length; i++) {
@@ -329,6 +331,7 @@
                         for (let i = 0; i < rotulos.length; i++) {
                             ordenado[i] = { rotulo: rotulos[i], taxa: taxas[i] };
                         }
+                        //bubble sort
                         for (let i = 0; i < ordenado.length; i++) {
                             for (let j = 0; j < ordenado.length - 1 - i; j++) {
                                 if (ordenado[j].taxa > ordenado[j + 1].taxa) {
@@ -338,6 +341,7 @@
                                 }
                             }
                         }
+
                         let rotulosOrdenados = [];
                         let taxasOrdenadas = [];
                         for (let i = 0; i < ordenado.length; i++) {
